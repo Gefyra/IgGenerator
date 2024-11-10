@@ -8,179 +8,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="175f635b-6a52-4411-8415-2d0f6107b9f5" name="Changes" comment="Initial commit">
-      <change afterPath="$PROJECT_DIR$/IgGenerator/ConsoleHandling/UserInteractionHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/IgGenerator/IgHandler/IgFileHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/IgGenerator/IgHandler/IgHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/IgGenerator/ResourceHandling/IResourceFileHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/IgGenerator/ResourceHandling/ResourceHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/fsh-index.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Account-AbrechnungsfallDRG.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Account-SZ1DRGFall.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Account-SZ2DRGFall.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/AllergyIntolerance-ISiKAllergieUnvertraeglichkeitBeispiel1.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Binary-Binary-JPEG-Example-short.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Binary-Binary-JPEG-Example.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Binary-Binary-PDF-Example-short.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Binary-Binary-PDF-Example.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Bundle-ISiKBundle-Example.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Bundle-SubscriptionNotificationBundleExample.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Bundle-Suchergebnis-Beispiel.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Bundle-Szenario1.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Bundle-Szenario2.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/CapabilityStatement-ISiKCapabilityStatementBasisServer.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/CapabilityStatement-ISiKCapabilityStatementDokumentenaustauschServer.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/CodeSystem-CodeSystemExample.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/CodeSystem-ISiKBehandlungsergebnisRehaCS.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/CodeSystem-ISiKBesondereBehandlungsformRehaCS.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/CodeSystem-ISiKEntlassformRehaCS.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/CodeSystem-ISiKUnterbrechnungRehaCS.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Composition-composition-blutdruck.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Condition-BehandlungsDiagnoseFreitext.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Condition-Example-condition-ausrufezeichen-primaer.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Condition-Example-condition-ausrufezeichen-sekundaer.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Condition-Example-condition-kreuz-stern-primaer.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Condition-Example-condition-kreuz-stern-sekundaer.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Condition-MittelgradigeIntelligenzminderung.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Condition-SZ2Primaerdiagnose.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Condition-SZ2Sekundaerdiagnose.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Coverage-CoverageGesetzlich.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Coverage-CoveragePrivat.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Coverage-SZ1VersicherungGesetzlich.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Coverage-SZ1VersicherungSelbstzahler.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Coverage-SZ2VersicherungGesetzlich.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/DocumentReference-dok-beispiel-client-with-binary-jpeg-example-short.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/DocumentReference-dok-beispiel-client-with-binary-jpeg-example.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/DocumentReference-dok-beispiel-client-with-binary-pdf-example-short.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/DocumentReference-dok-beispiel-client-with-binary-pdf-example.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/DocumentReference-dok-beispiel-server.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Encounter-BeispielBesuch.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Encounter-Fachabteilungskontakt.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Encounter-FachabteilungskontaktMinimal.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Encounter-SZ1Nachstationaer.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Encounter-SZ1Stationaer.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Encounter-SZ1Vorstationaer.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Encounter-SZ2Encounter.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Location-BettenstellplatzStandortBeispiel.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Location-RaumStandortBeispiel.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Observation-ISiKAlkoholAbususBeispiel.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Observation-ISiKRaucherStatusBeispiel.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Observation-ISiKSchwangerschaftErwarteterEntbindungsterminBeispiel.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Observation-ISiKSchwangerschaftsstatusBeispiel.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Observation-ISiKStillstatusBeispiel.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/OperationDefinition-UpdateMetadata.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Organization-AbteilungAllgemeinchirurgieOrganisationBeispiel.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Organization-KrankenhausOrganisationBeispiel.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Patient-DorisQuelle.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Patient-DorisZiel.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Patient-PatientinMusterfrau.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Patient-PatientinMusterfrauMinimal.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Patient-SZ1Patient.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Patient-SZ2Patient.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Practitioner-PractitionerWalterArzt.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Procedure-Appendektomie.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/RelatedPerson-ISiKAngehoerigerMustermann.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/RelatedPerson-SZ1Mutter.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/SearchParameter-Encounter-date-start.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/SearchParameter-Encounter-end-date.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/StructureDefinition-ExtensionISiKRehaEntlassung.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/StructureDefinition-ISiKASKCoding.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/StructureDefinition-ISiKATCCoding.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/StructureDefinition-ISiKAbrechnungsfall.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/StructureDefinition-ISiKAlkoholAbusus.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/StructureDefinition-ISiKAllergieUnvertraeglichkeit.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/StructureDefinition-ISiKAngehoeriger.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/StructureDefinition-ISiKBerichtBundle.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/StructureDefinition-ISiKBerichtSubSysteme.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/StructureDefinition-ISiKBinary.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/StructureDefinition-ISiKCodeSystem.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/StructureDefinition-ISiKCoding.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/StructureDefinition-ISiKDiagnose.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/StructureDefinition-ISiKDokumentenMetadaten.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/StructureDefinition-ISiKDokumentenSuchergebnisse.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/StructureDefinition-ISiKICD10GMCoding.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/StructureDefinition-ISiKKontaktGesundheitseinrichtung.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/StructureDefinition-ISiKLebensZustand.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/StructureDefinition-ISiKLoincCoding.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/StructureDefinition-ISiKOrganisation.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/StructureDefinition-ISiKOrganisationFachabteilung.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/StructureDefinition-ISiKPZNCoding.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/StructureDefinition-ISiKPatient.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/StructureDefinition-ISiKPersonImGesundheitsberuf.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/StructureDefinition-ISiKProzedur.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/StructureDefinition-ISiKRaucherStatus.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/StructureDefinition-ISiKSchwangerschaftErwarteterEntbindungstermin.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/StructureDefinition-ISiKSchwangerschaftsstatus.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/StructureDefinition-ISiKSnomedCTCoding.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/StructureDefinition-ISiKStandort.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/StructureDefinition-ISiKStandortBettenstellplatz.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/StructureDefinition-ISiKStandortRaum.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/StructureDefinition-ISiKStillstatus.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/StructureDefinition-ISiKValueSet.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/StructureDefinition-ISiKVersicherungsverhaeltnisGesetzlich.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/StructureDefinition-ISiKVersicherungsverhaeltnisSelbstzahler.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/StructureDefinition-patient-merge-subscription.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/Subscription-PatientMergeSubscriptionExample.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/ValueSet-DiagnosesSCT.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/ValueSet-FhirMimeTypeVS.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/ValueSet-ISiKAccountType.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/ValueSet-ISiKBehandlungsergebnisReha.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/ValueSet-ISiKBesondereBehandlungsformReha.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/ValueSet-ISiKConfidentialityCodes.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/ValueSet-ISiKEntlassformReha.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/ValueSet-ISiKLocationPhysicalType.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/ValueSet-ISiKUnterbrechnungReha.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/ValueSet-ISiKValueSetExample.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/ValueSet-ProzedurenCodesSCT.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/ValueSet-ProzedurenKategorieSCT.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/ValueSet-RestAndWSSubscriptionChannelType.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/ValueSet-SchwangerschaftEtMethodeVS.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/ValueSet-SchwangerschaftsstatusVS.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/ValueSet-StillstatusVS.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/fsh-generated/resources/ValueSet-current-smoking-status-uv-ips.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/input/fsh/Beispiel-Szenario-1.fsh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/input/fsh/Beispiel-Szenario-2.fsh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/input/fsh/CodeSystems.fsh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/input/fsh/DokumentationsFloskeln.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/input/fsh/ISiKAbrechnungsfall.fsh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/input/fsh/ISiKAllergieUnvertraeglichkeit.fsh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/input/fsh/ISiKAngehoeriger.fsh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/input/fsh/ISiKBerichtBundle.fsh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/input/fsh/ISiKBerichtSubSysteme.fsh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/input/fsh/ISiKBinary.fsh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/input/fsh/ISiKCapabilityStatementBasisServer.fsh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/input/fsh/ISiKCapabilityStatementDokumentenaustauschServer.fsh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/input/fsh/ISiKCodeSystem.fsh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/input/fsh/ISiKDataTypeProfiles.fsh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/input/fsh/ISiKDiagnose.fsh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/input/fsh/ISiKDokumentenMetadaten.fsh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/input/fsh/ISiKDokumentenSuchergebnisse.fsh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/input/fsh/ISiKKontaktGesundheitseinrichtung.fsh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/input/fsh/ISiKLebenszustandOberservations.fsh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/input/fsh/ISiKOrganisation.fsh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/input/fsh/ISiKPatient.fsh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/input/fsh/ISiKPersonImGesundheitsberuf.fsh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/input/fsh/ISiKProzedur.fsh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/input/fsh/ISiKStandort.fsh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/input/fsh/ISiKValueSet.fsh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/input/fsh/ISiKVersicherungsverhaeltnisGesetzlich.fsh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/input/fsh/ISiKVersicherungsverhaeltnisSelbstzahler.fsh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/input/fsh/IsiKPatientMerge.fsh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/input/fsh/OperationUpdateMetadata.fsh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/input/fsh/aliases.fsh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/input/fsh/index.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/input/fsh/invariants.fsh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/input/fsh/mapping.fsh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/input/fsh/referencedExamples.fsh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/input/fsh/ruleset.fsh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/input/fsh/terminologies.fsh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/input/fsh/valueSets.fsh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/static/Patient-DorisResultat.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TestProject1/ResourcesCheck/Resources/sushi-config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.IG-Generator/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.IG-Generator/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IgGenerator/CapabilityStatementHandling/CapabilityStatementHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/ResourceHandling/ResourceFileHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TestProject1/TestProject1.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/TestProject1/TestProject1.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TestProject1/UnitTest1.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TestProject1/UnitTest1.cs" afterDir="false" />
+    <list default="true" id="175f635b-6a52-4411-8415-2d0f6107b9f5" name="Changes" comment="Fixed gitignore">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -217,6 +46,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/9b89bb6fb2b1dfa86c1b77f2d7e270cadff0861d62cda8c754361218b3baa4/LoadableTestFramework.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ee54785cc7e75c1f43aa94bce8192ce441aead70a196ebd9aa287b48d25881e/ExceptionAggregator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/IgGenerator/Program.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://D:/Gefyra Workspace/IgGenerator/TestProject1/UnitTest1.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
@@ -295,7 +125,7 @@
       <workItem from="1731246448594" duration="7482000" />
       <workItem from="1731254077783" duration="511000" />
       <workItem from="1731255141837" duration="1009000" />
-      <workItem from="1731270238488" duration="7849000" />
+      <workItem from="1731270238488" duration="8453000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <option name="closed" value="true" />
@@ -305,7 +135,23 @@
       <option name="project" value="LOCAL" />
       <updated>1731254119269</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Next steps ig generation">
+      <option name="closed" value="true" />
+      <created>1731278201198</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1731278201198</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Fixed gitignore">
+      <option name="closed" value="true" />
+      <created>1731278675484</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1731278675484</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -327,7 +173,9 @@
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="Initial commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial commit" />
+    <MESSAGE value="Next steps ig generation" />
+    <MESSAGE value="Fixed gitignore" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed gitignore" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
