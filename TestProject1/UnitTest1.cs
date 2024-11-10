@@ -1,8 +1,5 @@
-using System.Collections;
 using FluentAssertions;
 using Hl7.Fhir.Model;
-using Hl7.Fhir.Support;
-using IgGenerator;
 using IgGenerator.ConsoleHandling;
 using IgGenerator.DataObjectHandling;
 using IgGenerator.IgHandler;
@@ -34,7 +31,6 @@ public class UnitTest1
         {
             _check.Add(enumerateFile.Name, File.ReadAllText(enumerateFile.FullName));
         }
-
 
         //Act
         IDictionary<string, string> files = dataObjectTemplateHandler.ApplyVariables(variables);
