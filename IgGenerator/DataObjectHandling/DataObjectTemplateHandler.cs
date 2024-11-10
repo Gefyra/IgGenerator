@@ -2,7 +2,7 @@
 
 namespace IgGenerator.DataObjectHandling;
 
-public partial class DataObjectTemplateHandler
+public partial class DataObjectTemplateHandler : IDataObjectTemplateHandler
 {
     private const string FolderName = "./IgTemplate/Einfuehrung/Datenobjekte/Datenobjekte_Template";
 

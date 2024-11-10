@@ -9,81 +9,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="175f635b-6a52-4411-8415-2d0f6107b9f5" name="Changes" comment="Initial commit">
-      <change afterPath="$PROJECT_DIR$/IgGenerator/DataObjectHandling/DataObjectTemplateHandler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/IgGenerator/CapabilityStatementHandling/CapabilityStatementHandler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/IgGenerator/DataObjectHandling/IDataObjectTemplateHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.IG-Generator/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.IG-Generator/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator.sln" beforeDir="false" afterPath="$PROJECT_DIR$/IG-Generator.sln" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/.idea/.idea.IG-Generator/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/.idea/.idea.IG-Generator/.idea/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/.idea/.idea.IG-Generator/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/.idea/.idea.IG-Generator/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/.idea/.idea.IG-Generator/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/.idea/.idea.IG-Generator/.idea/indexLayout.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/DataObjectTemplateHandler.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IG-Generator.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgGenerator.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IIgDataObjectVariables.cs" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/DataObjectHandling/IDataObjectVariables.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgDataObjectVariables.cs" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/DataObjectHandling/DataObjectVariables.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgGenApplication.cs" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgGeneratorApplication.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/CapabilityStatement.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/CapabilityStatement.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Datenobjekte_CodeSystem/Anmerkungen-zu-Must-Support-Feldern.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Datenobjekte_CodeSystem/Anmerkungen-zu-Must-Support-Feldern.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Datenobjekte_CodeSystem/Beispiele.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Datenobjekte_CodeSystem/Beispiele.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Datenobjekte_CodeSystem/CodeSystem_Interaktionen.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Datenobjekte_CodeSystem/CodeSystem_Interaktionen.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Datenobjekte_CodeSystem/CodeSystem_Profil.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Datenobjekte_CodeSystem/CodeSystem_Profil.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Datenobjekte_CodeSystem/Index.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Datenobjekte_CodeSystem/Index.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Datenobjekte_CodeSystem/toc.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Datenobjekte_CodeSystem/toc.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Datenobjekte_Template/%igg.resourceName_Beispiele.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Datenobjekte_Template/%igg.resourceName_Beispiele.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Datenobjekte_Template/%igg.resourceName_Interaktionen.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Datenobjekte_Template/%igg.resourceName_Interaktionen.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Datenobjekte_Template/%igg.resourceName_Profil.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Datenobjekte_Template/%igg.resourceName_Profil.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Datenobjekte_Template/Anmerkungen-zu-den-Must-Support-Feldern.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Datenobjekte_Template/Anmerkungen-zu-den-Must-Support-Feldern.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Datenobjekte_Template/Index.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Datenobjekte_Template/Index.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Datenobjekte_ValueSet/Anmerkungen-zu-Must-Support-Feldern.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Datenobjekte_ValueSet/Anmerkungen-zu-Must-Support-Feldern.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Datenobjekte_ValueSet/Index.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Datenobjekte_ValueSet/Index.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Datenobjekte_ValueSet/Interaktionen.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Datenobjekte_ValueSet/Interaktionen.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Datenobjekte_ValueSet/ValueSet_Beispiele.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Datenobjekte_ValueSet/ValueSet_Beispiele.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Datenobjekte_ValueSet/ValueSet_Profil.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Datenobjekte_ValueSet/ValueSet_Profil.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Datenobjekte_ValueSet/toc.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Datenobjekte_ValueSet/toc.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Extensions/Account-Abrechnungsart.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Extensions/Account-Abrechnungsart.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Extensions/Account-Abrechnungsdiagnose-Prozedur.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Extensions/Account-Abrechnungsdiagnose-Prozedur.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Extensions/Condition-Lebensphase.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Extensions/Condition-Lebensphase.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Extensions/Condition-Related.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Extensions/Condition-Related.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Extensions/Encounter-Aufnahmegrund.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Extensions/Encounter-Aufnahmegrund.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Extensions/Encounter-Entlassgrund.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Extensions/Encounter-Entlassgrund.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Extensions/Encounter-Entlassungsgrund.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Extensions/Encounter-Entlassungsgrund.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Extensions/Encounter-PlannedEndDate-R5.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Extensions/Encounter-PlannedEndDate-R5.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Extensions/Encounter-PlannedStartDate-R5.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Extensions/Encounter-PlannedStartDate-R5.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Extensions/Encounter-RehaEntlassung.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Extensions/Encounter-RehaEntlassung.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Extensions/Encounter-Wahlleistung.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Extensions/Encounter-Wahlleistung.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Extensions/Index.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Extensions/Index.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Extensions/Patient-Geschlecht-Administrativ.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Extensions/Patient-Geschlecht-Administrativ.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Extensions/Procedure-Dokumentationsdatum.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Extensions/Procedure-Dokumentationsdatum.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Extensions/toc.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Extensions/toc.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/FQL-Capability-Operations.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/FQL-Capability-Operations.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/FQL-Capability-REST.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/FQL-Capability-REST.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/FQL-Capability-Search.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/FQL-Capability-Search.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Index.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Index.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/New-item.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/New-item.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Terminologien/CodeSystem-ISiKBehandlungsergebnisReha.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Terminologien/CodeSystem-ISiKBehandlungsergebnisReha.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Terminologien/CodeSystem-ISiKBesondereBehandlungsformRehaCS.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Terminologien/CodeSystem-ISiKBesondereBehandlungsformRehaCS.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Terminologien/CodeSystem-ISiKEntlassformRehaCS.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Terminologien/CodeSystem-ISiKEntlassformRehaCS.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Terminologien/CodeSystem-ISiKUnterbrechnungRehaCS.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Terminologien/CodeSystem-ISiKUnterbrechnungRehaCS.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Terminologien/FQL-CodeSystem.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Terminologien/FQL-CodeSystem.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Terminologien/Index.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Terminologien/Index.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Terminologien/toc.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Terminologien/toc.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Versicherungsverhältnis-gesetzlich-Coverage/Anmerkungen-zu-den-Must-Support-Feldern.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Versicherungsverhältnis-gesetzlich-Coverage/Anmerkungen-zu-den-Must-Support-Feldern.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Versicherungsverhältnis-gesetzlich-Coverage/Beispiele.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Versicherungsverhältnis-gesetzlich-Coverage/Beispiele.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Versicherungsverhältnis-gesetzlich-Coverage/Index.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Versicherungsverhältnis-gesetzlich-Coverage/Index.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Versicherungsverhältnis-gesetzlich-Coverage/Interaktionen.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Versicherungsverhältnis-gesetzlich-Coverage/Interaktionen.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Versicherungsverhältnis-gesetzlich-Coverage/profil.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Versicherungsverhältnis-gesetzlich-Coverage/profil.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Versicherungsverhältnis-gesetzlich-Coverage/toc.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Versicherungsverhältnis-gesetzlich-Coverage/toc.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Versicherungverhältnis-Selbstzahler-privat-Coverage/Anmerkungen-zu-den-Must-Support-Feldern.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Versicherungverhältnis-Selbstzahler-privat-Coverage/Anmerkungen-zu-den-Must-Support-Feldern.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Versicherungverhältnis-Selbstzahler-privat-Coverage/Beispiele.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Versicherungverhältnis-Selbstzahler-privat-Coverage/Beispiele.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Versicherungverhältnis-Selbstzahler-privat-Coverage/Index.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Versicherungverhältnis-Selbstzahler-privat-Coverage/Index.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Versicherungverhältnis-Selbstzahler-privat-Coverage/Interaktionen.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Versicherungverhältnis-Selbstzahler-privat-Coverage/Interaktionen.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Versicherungverhältnis-Selbstzahler-privat-Coverage/Profil.page.md" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Versicherungverhältnis-Selbstzahler-privat-Coverage/Profil.page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/Versicherungverhältnis-Selbstzahler-privat-Coverage/toc.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/Versicherungverhältnis-Selbstzahler-privat-Coverage/toc.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/Datenobjekte/toc.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/Datenobjekte/toc.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/Einfuehrung/toc.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/Einfuehrung/toc.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/guide.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/guide.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/IgTemplate/variables.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgTemplate/variables.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IG-Generator/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TestProject1/TestProject1.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/TestProject1/TestProject1.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TestProject1/UnitTest1.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TestProject1/UnitTest1.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IgGenerator/DataObjectHandling/DataObjectTemplateHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/DataObjectHandling/DataObjectTemplateHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IgGenerator/IgGenerator.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/IgGenerator.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IgGenerator/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/IgGenerator/Program.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,6 +27,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "jschoen-gefyra"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Gefyra/IgGenerator.git",
+    "accountId": "99d8be0d-1462-43bc-8d5e-c9b5f22f73a6"
+  }
+}]]></component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/422299c1e1233f1a20b8c0654281f74792424fe87e29abaf4ecfcd0cd64d718/FileSystemEnumerator.Windows.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/9b89bb6fb2b1dfa86c1b77f2d7e270cadff0861d62cda8c754361218b3baa4/LoadableTestFramework.cs" root0="FORCE_HIGHLIGHTING" />
@@ -115,21 +58,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "53051079-0e6f-41bf-9635-a4b28e33a594.executor": "Debug",
-    "8690ca4e-0760-42c0-8dec-8d671fe36178.executor": "Debug",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.sourceCode.C#",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;53051079-0e6f-41bf-9635-a4b28e33a594.executor&quot;: &quot;Debug&quot;,
+    &quot;8690ca4e-0760-42c0-8dec-8d671fe36178.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.C#&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected=".NET Project.IG-Generator">
     <configuration name="IG-Generator" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
@@ -178,6 +121,7 @@
       <updated>1731246446914</updated>
       <workItem from="1731246448594" duration="7482000" />
       <workItem from="1731254077783" duration="511000" />
+      <workItem from="1731255141837" duration="1009000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <option name="closed" value="true" />
@@ -195,6 +139,17 @@
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="Initial commit" />

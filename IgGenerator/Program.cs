@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using IgGenerator.DataObjectHandling;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace IgGenerator
 {
@@ -15,7 +16,8 @@ namespace IgGenerator
         private static ServiceProvider CreateServices()
         {
             ServiceProvider serviceProvider = new ServiceCollection()
-                .AddSingleton<Application>(new Application())
+                .AddSingleton(new Application())
+                .AddSingleton<IDataObjectTemplateHandler, DataObjectTemplateHandler>()
                 .BuildServiceProvider();
 
             return serviceProvider;
