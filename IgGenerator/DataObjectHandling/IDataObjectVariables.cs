@@ -1,6 +1,6 @@
-﻿namespace IG_Generator;
+﻿namespace IgGenerator.DataObjectHandling;
 
-public interface IIgDataObjectVariables
+public interface IDataObjectVariables
 {
     public const string VARNAME_RESOURCENAME = "%igg.resourceName";
     public const string VARNAME_CANONICAL = "%igg.canonical";

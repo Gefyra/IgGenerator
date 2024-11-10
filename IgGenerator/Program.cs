@@ -1,7 +1,6 @@
-﻿using System.Net.Mime;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace IgGen
+namespace IgGenerator
 {
     internal static class Program
     {
@@ -9,14 +8,14 @@ namespace IgGen
         {
             ServiceProvider services = CreateServices();
 
-            IgGenApplication app = services.GetRequiredService<IgGenApplication>();
+            Application app = services.GetRequiredService<Application>();
             app.StartWorkflow();
         }
 
         private static ServiceProvider CreateServices()
         {
             ServiceProvider serviceProvider = new ServiceCollection()
-                .AddSingleton<IgGenApplication>(new IgGenApplication())
+                .AddSingleton<Application>(new Application())
                 .BuildServiceProvider();
 
             return serviceProvider;

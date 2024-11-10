@@ -1,9 +1,9 @@
 ﻿using M31.FluentApi.Attributes;
 
-namespace IG_Generator;
+namespace IgGenerator.DataObjectHandling;
 
 [FluentApi]
-public class IgDataObjectVariables : IIgDataObjectVariables
+public class DataObjectVariables : IDataObjectVariables
 {
     [FluentMember(0)]
     public string? ResourceName { get; set; }

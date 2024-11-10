@@ -1,7 +1,7 @@
 using System.Collections;
 using FluentAssertions;
-using IG_Generator;
-using IgGen;
+using IgGenerator;
+using IgGenerator.DataObjectHandling;
 
 namespace TestProject1;
 
@@ -16,7 +16,7 @@ public class UnitTest1
         {
             { "Valides Minimalbeispiel Patient", "patientinmusterfrau" },
         };
-        IIgDataObjectVariables variables = CreateIgDataObjectVariables
+        IDataObjectVariables variables = CreateDataObjectVariables
             .WithResourceName("Patient")
             .WithCanonical("https://gematik.de/fhir/isik/StructureDefinition/ISiKPatient")
             .WithCoreUrl("https://hl7.org/fhir/R4/patient.html")

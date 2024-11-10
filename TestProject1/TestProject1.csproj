@@ -22,7 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\IG-Generator\IG-Generator.csproj" />
+      <ProjectReference Include="..\IgGenerator\IgGenerator.csproj" />
     </ItemGroup>
 
     <ItemGroup>
