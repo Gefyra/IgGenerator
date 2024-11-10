@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IG-Generator", "IG-Generator\IG-Generator.csproj", "{FB8984AE-7048-451E-9295-0D6F5E07D4EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject1", "TestProject1\TestProject1.csproj", "{F35E2DFB-A98F-4EF9-94C5-06C98D5870B4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FB8984AE-7048-451E-9295-0D6F5E07D4EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB8984AE-7048-451E-9295-0D6F5E07D4EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB8984AE-7048-451E-9295-0D6F5E07D4EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB8984AE-7048-451E-9295-0D6F5E07D4EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F35E2DFB-A98F-4EF9-94C5-06C98D5870B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F35E2DFB-A98F-4EF9-94C5-06C98D5870B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F35E2DFB-A98F-4EF9-94C5-06C98D5870B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F35E2DFB-A98F-4EF9-94C5-06C98D5870B4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
