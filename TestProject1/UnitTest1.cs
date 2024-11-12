@@ -114,6 +114,28 @@ public class UnitTest1
     }
     
     [Fact]
+    public void ResourceHandler_GetCodeSystems()
+    {
+        Mock<IUserInteractionHandler> userInterationHandlerMock = new();
+        userInterationHandlerMock
+            .Setup(x => x.GetString(It.Is<string>(s => s == "Path of Resources:")))
+            .Returns("./ResourcesCheck/Resources");
+        userInterationHandlerMock.Setup(x => x.GetNumber(It.IsAny<string>(), It.IsAny<int>())).Returns(0);
+        
+        IResourceFileHandler fileHandler = new ResourceFileHandler(userInterationHandlerMock.Object);
+
+        IResourceHandler resourceHandler = new ResourceHandler(fileHandler, userInterationHandlerMock.Object);
+
+        //Act
+        fileHandler.StartConsoleWorkflow();
+        IEnumerable<CodeSystem> codeSystems = resourceHandler.GetCodeSystems().ToArray();
+        
+        //Assert
+        codeSystems.Should().NotBeNull();
+        codeSystems.Count().Should().Be(5);
+    }
+    
+    [Fact]
     public void IgHanlder_ApplyTemplateToAllSupportedProfilesTest()
     {
         Mock<IUserInteractionHandler> userInterationHandlerMock = new();

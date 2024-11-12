@@ -24,6 +24,12 @@ public partial class ResourceHandler : IResourceHandler
             .SelectMany(e => e.Resource.SelectMany(r => r.SupportedProfile));
     }
 
+    public IEnumerable<CodeSystem> GetCodeSystems()
+    {
+        IEnumerable<FileInfo>? sdFile = _fileHandler.AllJsonFiles?.Where(e => e.Name.StartsWith($"CodeSystem-")).ToArray();
+        return sdFile?.Select(e=>_parser.Parse<CodeSystem>(File.ReadAllText(e.FullName))) ?? Array.Empty<CodeSystem>();
+    }
+
     public StructureDefinition GetStructureDefinition(string supportedProfile)
     {
         const string pattern = @"[^/]+$";

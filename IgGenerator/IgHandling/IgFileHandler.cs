@@ -48,7 +48,27 @@ public partial class IgFileHandler :IIgFileHandler
             }
         }
     }
-    
+
+    public void SaveExtractedCodeSystemFiles(IDictionary<string, string> extractedCodeSystems)
+    {
+        string dataObjectFolderName = "Datenobjekte";
+        string? fullPath = _directory.FindFolderPath(dataObjectFolderName);
+        const string terminologyFolderName = "Terminologien";
+
+        if (!Directory.Exists($"{fullPath}/{terminologyFolderName}"))
+        {
+            Directory.CreateDirectory($"{fullPath}/{terminologyFolderName}");
+        }
+        
+        foreach (KeyValuePair<string, string> codeSystem in extractedCodeSystems)
+        {
+            string file = $"{_directory.FullName}/{dataObjectFolderName}/{terminologyFolderName}/{codeSystem.Key}";
+            File.Create(file).Dispose();
+            File.WriteAllText(file, codeSystem.Value);
+            _userInteractionHandler.Send($"{file} has been created");
+        }
+    }
+
     [GeneratedRegex("[^/]+$")]
     private static partial Regex LastPartOfCanonical();
 }

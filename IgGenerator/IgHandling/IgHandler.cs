@@ -4,36 +4,45 @@ using IgGenerator.ResourceHandling;
 
 namespace IgGenerator.IgHandling;
 
-public class IgHandler : IIgHandler
+public class IgHandler(
+    IResourceHandler resourceHandler,
+    IDataObjectTemplateHandler templateHandler,
+    IResourceFileHandler resourceFileHandler,
+    IIgFileHandler igFileHandler)
+    : IIgHandler
 {
-
-    private readonly IResourceHandler _resourceHandler;
-    private readonly IDataObjectTemplateHandler _templateHandler;
-    private readonly IResourceFileHandler _resourceFileHandler;
-    private readonly IIgFileHandler _igFileHandler;
-
-    public IgHandler(IResourceHandler resourceHandler, IDataObjectTemplateHandler templateHandler, IResourceFileHandler resourceFileHandler, IIgFileHandler igFileHandler)
-    {
-        _resourceHandler = resourceHandler;
-        _templateHandler = templateHandler;
-        _resourceFileHandler = resourceFileHandler;
-        _igFileHandler = igFileHandler;
-    }
+    private readonly IResourceFileHandler _resourceFileHandler = resourceFileHandler;
+    private readonly IIgFileHandler _igFileHandler = igFileHandler;
 
 
     public IDictionary<string, IDictionary<string, string>> ApplyTemplateToAllSupportedProfiles()
     {
-        IEnumerable<string>? supportedProfiles = _resourceHandler.ExtractSupportedProfiles();
+        IEnumerable<string>? supportedProfiles = resourceHandler.ExtractSupportedProfiles();
 
         IDictionary<string, IDictionary<string, string>> result = new Dictionary<string, IDictionary<string, string>>();
 
         foreach (string supportedProfile in supportedProfiles)
         {
-            StructureDefinition profileSd = _resourceHandler.GetStructureDefinition(supportedProfile);
+            StructureDefinition profileSd = resourceHandler.GetStructureDefinition(supportedProfile);
             IDataObjectVariables variables = ExtractVariablesFromStructureDefinition(profileSd);
             
-            IDictionary<string, string> chapter = _templateHandler.ApplyVariables(variables);
+            IDictionary<string, string> chapter = templateHandler.ApplyVariables(variables);
             result.Add(supportedProfile, chapter);
+        }
+
+        return result;
+    }
+
+    public IDictionary<string, string> ApplyTemplateToCodeSystems()
+    {
+        IEnumerable<CodeSystem> codeSystems = resourceHandler.GetCodeSystems();
+
+        IDictionary<string, string> result = new Dictionary<string, string>();
+
+        foreach (CodeSystem codeSystem in codeSystems)
+        {
+            IDataObjectTerminologyVariables variables = ExtractVariablesFromCodeSystem(codeSystem);
+            result.Add(templateHandler.ApplyVariables(variables));
         }
 
         return result;
@@ -48,4 +57,9 @@ public class IgHandler : IIgHandler
             .WithNoExample(); //TODO ExampleSelection
         return variables;
     }
+    
+    private static IDataObjectTerminologyVariables ExtractVariablesFromCodeSystem(CodeSystem codeSystem) =>
+        CreateDataObjectTerminologyVariables
+            .WithTerminologyName(codeSystem.Name)
+            .WithCanonical(codeSystem.UrlElement.Value);
 }

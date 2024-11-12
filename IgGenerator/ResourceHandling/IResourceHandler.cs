@@ -6,4 +6,5 @@ public interface IResourceHandler
 {
     public IEnumerable<string>? ExtractSupportedProfiles();
     public StructureDefinition GetStructureDefinition(string supportedProfile);
+    public IEnumerable<CodeSystem> GetCodeSystems();
 }

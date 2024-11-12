@@ -16,3 +16,12 @@ public interface IDataObjectVariables
     public string? CoreUrl { get; set; }
     public IDictionary<string, string>? ExampleNamesAndIds { get; set; }
 }
+
+public interface IDataObjectTerminologyVariables
+{
+    public const string VARNAME_TERMNAME = "%igg.termname";
+    public const string VARNAME_CANONICAL = "%igg.canonical";
+    
+    public string? TerminologyName { get; set; }
+    public string? Canonical { get; set; }
+}

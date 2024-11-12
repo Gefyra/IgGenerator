@@ -15,3 +15,12 @@ public class DataObjectVariables : IDataObjectVariables
     [FluentNullable("WithNoExample")]
     public IDictionary<string, string>? ExampleNamesAndIds { get; set; }
 }
+
+[FluentApi]
+public class DataObjectTerminologyVariables : IDataObjectTerminologyVariables
+{
+    [FluentMember(0)]
+    public string? TerminologyName { get; set; }
+    [FluentMember(1)]
+    public string? Canonical { get; set; }
+}

@@ -1,5 +1,5 @@
 ---
-canonical: https://gematik.de/fhir/isik/CodeSystem/ISiKBesondereBehandlungsformRehaCS
+canonical: %igg.canonical
 ---
 
 ## {{link}}
