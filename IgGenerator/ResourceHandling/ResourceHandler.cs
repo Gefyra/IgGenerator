@@ -46,9 +46,3 @@ public partial class ResourceHandler : IResourceHandler
     [GeneratedRegex("[^/]+$")]
     private static partial Regex LastPartOfCanonical();
 }
-
-public interface IResourceHandler
-{
-    public IEnumerable<string>? ExtractSupportedProfiles();
-    public StructureDefinition GetStructureDefinition(string supportedProfile);
-}

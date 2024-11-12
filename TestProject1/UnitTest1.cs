@@ -2,7 +2,8 @@ using FluentAssertions;
 using Hl7.Fhir.Model;
 using IgGenerator.ConsoleHandling;
 using IgGenerator.DataObjectHandling;
-using IgGenerator.IgHandler;
+using IgGenerator.Helpers;
+using IgGenerator.IgHandling;
 using IgGenerator.ResourceHandling;
 using Moq;
 
@@ -59,7 +60,7 @@ public class UnitTest1
         IResourceFileHandler fileHandler = new ResourceFileHandler(userInterationHandlerMock.Object);
 
         //Act
-        fileHandler.StartWorkflow();
+        fileHandler.StartConsoleWorkflow();
         
         //Assert
         fileHandler.CapabilityStatement.Should().NotBeNull();
@@ -82,7 +83,7 @@ public class UnitTest1
         IResourceHandler resourceHandler = new ResourceHandler(fileHandler, userInterationHandlerMock.Object);
 
         //Act
-        fileHandler.StartWorkflow();
+        fileHandler.StartConsoleWorkflow();
         StructureDefinition supportedProfile = resourceHandler.GetStructureDefinition(canonical);
         
         //Assert
@@ -104,7 +105,7 @@ public class UnitTest1
         IResourceHandler resourceHandler = new ResourceHandler(fileHandler, userInterationHandlerMock.Object);
 
         //Act
-        fileHandler.StartWorkflow();
+        fileHandler.StartConsoleWorkflow();
         IEnumerable<string>? supportedProfiles = resourceHandler.ExtractSupportedProfiles()?.ToArray();
         
         //Assert
@@ -122,7 +123,7 @@ public class UnitTest1
         userInterationHandlerMock.Setup(x => x.GetNumber(It.IsAny<string>(), It.IsAny<int>())).Returns(0);
         IResourceFileHandler fileHandler = new ResourceFileHandler(userInterationHandlerMock.Object);
         IResourceHandler resourceHandler = new ResourceHandler(fileHandler, userInterationHandlerMock.Object);
-        IIgHandler igHandler = new IgHandler(resourceHandler, new DataObjectTemplateHandler(), fileHandler);
+        IIgHandler igHandler = new IgHandler(resourceHandler, new DataObjectTemplateHandler(), fileHandler, null!);
         
         string checkFolderName = "./IgTemplateCheck/Einfuehrung/Datenobjekte";
         DirectoryInfo directoryInfo = new(checkFolderName);
@@ -136,6 +137,16 @@ public class UnitTest1
         IDictionary<string, IDictionary<string, string>> filledTemplates = igHandler.ApplyTemplateToAllSupportedProfiles();
         
         //Assert
+    }
+
+    [Fact]
+    public void Extensions_FindFolderPath()
+    {
+        DirectoryInfo directoryInfo = new("./IgTemplateCheck");
+
+        string? path = directoryInfo.FindFolderPath("Datenobjekte");
+
+        path.Should().EndWith(@"IgTemplateCheck\Einfuehrung\Datenobjekte");
     }
     
 }

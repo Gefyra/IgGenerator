@@ -11,7 +11,7 @@ public class ResourceFileHandler(IUserInteractionHandler userInteractionHandler)
     public CapabilityStatement? CapabilityStatement { get; private set; }
     public IEnumerable<FileInfo>? AllJsonFiles { get; private set; }
 
-    public void StartWorkflow()
+    public void StartConsoleWorkflow()
     {
         _folderPath = userInteractionHandler.GetString("Path of Resources:");
         FindCapabilityStatement();

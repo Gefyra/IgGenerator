@@ -2,26 +2,27 @@ using Hl7.Fhir.Model;
 using IgGenerator.DataObjectHandling;
 using IgGenerator.ResourceHandling;
 
-namespace IgGenerator.IgHandler;
+namespace IgGenerator.IgHandling;
 
 public class IgHandler : IIgHandler
 {
 
     private readonly IResourceHandler _resourceHandler;
-    private DataObjectTemplateHandler _templateHandler;
+    private readonly IDataObjectTemplateHandler _templateHandler;
     private readonly IResourceFileHandler _resourceFileHandler;
+    private readonly IIgFileHandler _igFileHandler;
 
-    public IgHandler(IResourceHandler resourceHandler, DataObjectTemplateHandler templateHandler, IResourceFileHandler resourceFileHandler)
+    public IgHandler(IResourceHandler resourceHandler, IDataObjectTemplateHandler templateHandler, IResourceFileHandler resourceFileHandler, IIgFileHandler igFileHandler)
     {
         _resourceHandler = resourceHandler;
         _templateHandler = templateHandler;
         _resourceFileHandler = resourceFileHandler;
+        _igFileHandler = igFileHandler;
     }
 
 
     public IDictionary<string, IDictionary<string, string>> ApplyTemplateToAllSupportedProfiles()
     {
-        _resourceFileHandler.StartWorkflow();
         IEnumerable<string>? supportedProfiles = _resourceHandler.ExtractSupportedProfiles();
 
         IDictionary<string, IDictionary<string, string>> result = new Dictionary<string, IDictionary<string, string>>();
@@ -47,9 +48,4 @@ public class IgHandler : IIgHandler
             .WithNoExample(); //TODO ExampleSelection
         return variables;
     }
-}
-
-public interface IIgHandler
-{
-    public IDictionary<string, IDictionary<string, string>> ApplyTemplateToAllSupportedProfiles();
 }

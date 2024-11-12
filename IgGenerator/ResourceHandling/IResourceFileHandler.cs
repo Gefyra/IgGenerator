@@ -6,5 +6,5 @@ public interface IResourceFileHandler
 {
     public CapabilityStatement? CapabilityStatement { get; }
     public IEnumerable<FileInfo>? AllJsonFiles { get; }
-    public void StartWorkflow();
+    public void StartConsoleWorkflow();
 }

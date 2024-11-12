@@ -1,3 +1,5 @@
+using Hl7.FhirPath.Expressions;
+
 namespace IgGenerator.ConsoleHandling;
 
 public class UserInteractionHandler : IUserInteractionHandler
@@ -18,10 +20,34 @@ public class UserInteractionHandler : IUserInteractionHandler
         } while(string.IsNullOrEmpty(folder));
         return folder;
     }
-}
 
-public interface IUserInteractionHandler
-{
-    public int GetNumber(string question, int defaultAnswer);
-    public string GetString(string question);
+    public void Send(string message)
+    {
+        Console.WriteLine(message);
+    }
+
+    public void SendAndExit(string message)
+    {
+        Send(message);
+        Environment.Exit(0);
+    }
+
+    public bool AskYesNoQuestion(string question, bool defaultAnswer)
+    {
+        Console.WriteLine(question);
+        string? answer;
+        do
+        {
+            answer = Console.ReadLine();
+            if (answer?.ToLower() == "y" || answer?.ToLower() == "t")
+            {
+                answer = "true";
+            }
+            if (answer?.ToLower() == "n" || answer?.ToLower() == "f")
+            {
+                answer = "false";
+            }
+        } while(string.IsNullOrEmpty(answer) && bool.TryParse(answer, out _));
+        return bool.Parse(answer!);
+    }
 }
