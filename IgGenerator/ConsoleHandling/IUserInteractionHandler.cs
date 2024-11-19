@@ -7,4 +7,5 @@ public interface IUserInteractionHandler
     public void Send(string message);
     public void SendAndExit(string message);
     public bool AskYesNoQuestion(string question, bool defaultAnswer);
+    public void AskCacheUsage();
 }

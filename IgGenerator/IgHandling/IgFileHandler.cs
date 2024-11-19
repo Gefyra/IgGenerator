@@ -62,7 +62,7 @@ public partial class IgFileHandler :IIgFileHandler
         
         foreach (KeyValuePair<string, string> codeSystem in extractedCodeSystems)
         {
-            string file = $"{_directory.FullName}/{dataObjectFolderName}/{terminologyFolderName}/{codeSystem.Key}";
+            string file = $"{fullPath}/{terminologyFolderName}/{codeSystem.Key}";
             File.Create(file).Dispose();
             File.WriteAllText(file, codeSystem.Value);
             _userInteractionHandler.Send($"{file} has been created");
