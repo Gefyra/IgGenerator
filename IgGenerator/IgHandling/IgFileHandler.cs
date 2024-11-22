@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using IgGenerator.ConsoleHandling;
+using IgGenerator.DataObjectHandling;
 using IgGenerator.Helpers;
 
 namespace IgGenerator.IgHandling;
@@ -9,12 +10,16 @@ public partial class IgFileHandler :IIgFileHandler
     private readonly IUserInteractionHandler _userInteractionHandler;
     private readonly INamingManipulationHandler _namingManipulationHandler;
     private DirectoryInfo _directory;
+    private readonly ITemplateHandler _iTemplateHandler;
+    private readonly ITocFileManager _tocFileManager;
     public string igFolderPath { get; private set; }
 
-    public IgFileHandler(IUserInteractionHandler userInteractionHandler, INamingManipulationHandler namingManipulationHandler)
+    public IgFileHandler(IUserInteractionHandler userInteractionHandler, INamingManipulationHandler namingManipulationHandler,ITemplateHandler iTemplateHandler, ITocFileManager tocFileManager)
     {
         _userInteractionHandler = userInteractionHandler;
         _namingManipulationHandler = namingManipulationHandler;
+        _iTemplateHandler = iTemplateHandler;
+        _tocFileManager = tocFileManager;
     }
 
     public void StartConsoleWorkflow()
@@ -58,6 +63,47 @@ public partial class IgFileHandler :IIgFileHandler
         SimpleAllFilesFromDirectory(extractedExtensions, fullPath);
     }
 
+    public void SaveCopyPasteFiles()
+    {
+        string? fullPath = _directory.FindFolderPath("Einfuehrung");
+        
+        SimpleAllFilesFromDirectory(_iTemplateHandler.CopyPasteFiles, fullPath);
+    }
+
+    public void SaveTocFiles()
+    {
+        SaveDataObjectTocFile();
+        SaveCodesystemTocFile();
+        SaveExtensionTocFile();
+    }
+
+    private void SaveDataObjectTocFile()
+    {
+        string? tocFileFolderPath = _directory.FindFolderPath("Datenobjekte");
+        SimpleAllFilesFromDirectory(new Dictionary<string, string>
+        {
+            {"toc.yaml", _tocFileManager.GetDataObjectTocFile().RemoveEmptyLines()}
+        }, tocFileFolderPath);
+    }
+    
+    private void SaveCodesystemTocFile()
+    {
+        string? tocFileFolderPath = _directory.FindFolderPath("Terminologien");
+        SimpleAllFilesFromDirectory(new Dictionary<string, string>
+        {
+            {"toc.yaml", _tocFileManager.GetCodeSystemTocFile().RemoveEmptyLines()}
+        }, tocFileFolderPath);
+    }
+    
+    private void SaveExtensionTocFile()
+    {
+        string? tocFileFolderPath = _directory.FindFolderPath("Extensions");
+        SimpleAllFilesFromDirectory(new Dictionary<string, string>
+        {
+            {"toc.yaml", _tocFileManager.GetExtensionTocFile().RemoveEmptyLines()}
+        }, tocFileFolderPath);
+    }
+
     private string? GetDataObjectPath(string subfolder)
     {
         string dataObjectFolderName = "Datenobjekte";
@@ -65,18 +111,18 @@ public partial class IgFileHandler :IIgFileHandler
         return fullPath;
     }
 
-    private void SimpleAllFilesFromDirectory(IDictionary<string, string> files, string? fullPath )
+    private void SimpleAllFilesFromDirectory(IDictionary<string, string> files, string? fullPath)
     {
         if (!Directory.Exists($"{fullPath}"))
         {
             Directory.CreateDirectory($"{fullPath}");
         }
 
-        foreach (KeyValuePair<string, string> extension in files)
+        foreach (KeyValuePair<string, string> f in files)
         {
-            string file = $"{fullPath}/{extension.Key}";
+            string file = $"{fullPath}/{f.Key}";
             File.Create(file).Dispose();
-            File.WriteAllText(file, extension.Value);
+            File.WriteAllText(file, f.Value);
             _userInteractionHandler.Send($"{file} has been created");
         }
     }

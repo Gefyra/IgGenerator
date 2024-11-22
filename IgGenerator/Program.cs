@@ -23,10 +23,11 @@ namespace IgGenerator
                 .AddSingleton<IUserInteractionHandler, UserInteractionHandler>()
                 .AddSingleton<IIgFileHandler, IgFileHandler>()
                 .AddSingleton<IIgHandler, IgHandling.IgHandler>()
-                .AddSingleton<IDataObjectTemplateHandler, DataObjectTemplateHandler>()
+                .AddSingleton<ITemplateHandler, TemplateHandler>()
                 .AddSingleton<IResourceFileHandler, ResourceFileHandler>()
                 .AddSingleton<IResourceHandler, ResourceHandler>()
                 .AddSingleton<INamingManipulationHandler, NamingManipulationHandler>()
+                .AddSingleton<ITocFileManager, TocFileManager>()
                 .BuildServiceProvider();
             return serviceProvider;
         }

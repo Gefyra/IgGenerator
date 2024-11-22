@@ -1,9 +1,10 @@
-﻿using M31.FluentApi.Attributes;
+﻿using System.Text.RegularExpressions;
+using M31.FluentApi.Attributes;
 
 namespace IgGenerator.DataObjectHandling;
 
 [FluentApi]
-public class DataObjectVariables : IDataObjectVariables
+public partial class DataObjectVariables : IDataObjectVariables
 {
     [FluentMember(0)]
     public string? ResourceName { get; set; }
@@ -15,6 +16,15 @@ public class DataObjectVariables : IDataObjectVariables
     [FluentMember(4)]
     [FluentNullable("WithNoExample")]
     public IDictionary<string, string>? ExampleNamesAndIds { get; set; }
+
+    public string GetFilename()
+    {
+        return LastPartOfCanonical().Match(Canonical).Value;
+    }
+    
+    
+    [GeneratedRegex("[^/]+$")]
+    private static partial Regex LastPartOfCanonical();
 }
 
 [FluentApi]

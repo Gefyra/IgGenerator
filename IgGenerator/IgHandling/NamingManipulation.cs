@@ -10,7 +10,7 @@ public class NamingManipulationHandler(IUserInteractionHandler userInteractionHa
 
     public void StartConsoleWorkflow()
     {
-        DoNamingManipulation = userInteractionHandler.AskYesNoQuestion("Do you want to switch off naming manipulation? (default: false)", false);
+        DoNamingManipulation = userInteractionHandler.AskYesNoQuestion("Do you want to manipulate names? (default: false)", false);
     }
 
     public string FilterPartFromFilename(string filename)

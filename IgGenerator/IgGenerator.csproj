@@ -19,9 +19,9 @@
 
     <ItemGroup>
       <None Update="IgTemplate\**">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Update="IgTemplate\Einfuehrung\Datenobjekte\Extensions\%igg.resourceName.page.md">
+      <None Update="cache.xml">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
     </ItemGroup>

@@ -6,14 +6,12 @@ namespace IgGenerator.IgHandling;
 
 public class IgHandler(
     IResourceHandler resourceHandler,
-    IDataObjectTemplateHandler templateHandler,
+    ITemplateHandler templateHandler,
     IResourceFileHandler resourceFileHandler,
-    IIgFileHandler igFileHandler)
+    IIgFileHandler igFileHandler,
+    ITocFileManager tocFileManager)
     : IIgHandler
 {
-    private readonly IResourceFileHandler _resourceFileHandler = resourceFileHandler;
-    private readonly IIgFileHandler _igFileHandler = igFileHandler;
-
 
     public IDictionary<string, IDictionary<string, string>> ApplyTemplateToAllSupportedProfiles()
     {
@@ -28,8 +26,9 @@ public class IgHandler(
             
             IDictionary<string, string> chapter = templateHandler.ApplyProfileVariables(variables);
             result.Add(supportedProfile, chapter);
-        }
 
+            tocFileManager?.RegisterDataObject(variables);
+        }
         return result;
     }
 
@@ -43,6 +42,8 @@ public class IgHandler(
         {
             IDataObjectTerminologyVariables variables = ExtractVariablesFromCodeSystem(codeSystem);
             result.Add(templateHandler.ApplyTermVariables(variables));
+            
+            tocFileManager?.RegisterCodesystem(variables);
         }
 
         return result;
@@ -58,6 +59,8 @@ public class IgHandler(
         {
             IDataObjectVariables variables = ExtractVariablesFromExtensionTupel(extension);
             result.Add(templateHandler.ApplyExtensionVariables(variables));
+            
+            tocFileManager?.RegisterExtension(variables);
         }
 
         return result;

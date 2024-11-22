@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Languages>
+  <Language Title="Use Cache?" Value="true" />
+  <Language Title="Path of Resources:" Value="C:\Users\schoe\Documents\Spielwiese\isik-sandbox\Resources\fsh-generated\resources" />
+  <Language Title="Which one? (Type number, default 0):" Value="0" />
+  <Language Title="Do you want to manipulate names? (default: false)" Value="true" />
+  <Language Title="Select IgFolder Path:" Value="C:\Users\schoe\Documents\Spielwiese\isik-sandbox\guides\Implementierungsleitfaden-ISiK-Basismodul-401" />
+  <Language Title="Part to filter from filename:" Value="ISiK" />
+</Languages>
