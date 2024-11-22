@@ -1,4 +1,5 @@
 ﻿using IgGenerator.DataObjectHandling;
+using IgGenerator.DataObjectHandling.Interfaces;
 
 namespace IgGenerator.IgHandling;
 

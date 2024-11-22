@@ -1,6 +1,9 @@
 using Hl7.Fhir.Model;
 using IgGenerator.DataObjectHandling;
+using IgGenerator.DataObjectHandling.Interfaces;
+using IgGenerator.IgHandling.Interfaces;
 using IgGenerator.ResourceHandling;
+using IgGenerator.ResourceHandling.Interfaces;
 
 namespace IgGenerator.IgHandling;
 

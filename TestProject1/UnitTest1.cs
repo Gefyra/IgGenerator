@@ -1,10 +1,14 @@
 using FluentAssertions;
 using Hl7.Fhir.Model;
 using IgGenerator.ConsoleHandling;
+using IgGenerator.ConsoleHandling.Interfaces;
 using IgGenerator.DataObjectHandling;
+using IgGenerator.DataObjectHandling.Interfaces;
 using IgGenerator.Helpers;
 using IgGenerator.IgHandling;
+using IgGenerator.IgHandling.Interfaces;
 using IgGenerator.ResourceHandling;
+using IgGenerator.ResourceHandling.Interfaces;
 using Moq;
 
 namespace TestProject1;

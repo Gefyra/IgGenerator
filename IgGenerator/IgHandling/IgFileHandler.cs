@@ -1,7 +1,10 @@
 using System.Text.RegularExpressions;
 using IgGenerator.ConsoleHandling;
+using IgGenerator.ConsoleHandling.Interfaces;
 using IgGenerator.DataObjectHandling;
+using IgGenerator.DataObjectHandling.Interfaces;
 using IgGenerator.Helpers;
+using IgGenerator.IgHandling.Interfaces;
 
 namespace IgGenerator.IgHandling;
 

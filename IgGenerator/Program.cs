@@ -1,7 +1,11 @@
 ﻿using IgGenerator.ConsoleHandling;
+using IgGenerator.ConsoleHandling.Interfaces;
 using IgGenerator.DataObjectHandling;
+using IgGenerator.DataObjectHandling.Interfaces;
 using IgGenerator.IgHandling;
+using IgGenerator.IgHandling.Interfaces;
 using IgGenerator.ResourceHandling;
+using IgGenerator.ResourceHandling.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace IgGenerator

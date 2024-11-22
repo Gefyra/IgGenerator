@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using IgGenerator.DataObjectHandling.Interfaces;
 using IgGenerator.Helpers;
 using IgGenerator.IgHandling;
 

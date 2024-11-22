@@ -1,4 +1,4 @@
-namespace IgGenerator.DataObjectHandling;
+namespace IgGenerator.DataObjectHandling.Interfaces;
 
 public interface ITemplateHandler
 {

@@ -1,4 +1,4 @@
-namespace IgGenerator.IgHandling;
+namespace IgGenerator.IgHandling.Interfaces;
 
 public interface IIgHandler
 {

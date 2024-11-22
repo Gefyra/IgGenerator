@@ -1,6 +1,6 @@
 using Hl7.Fhir.Model;
 
-namespace IgGenerator.ResourceHandling;
+namespace IgGenerator.ResourceHandling.Interfaces;
 
 public interface IResourceFileHandler
 {

@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using IgGenerator.DataObjectHandling.Interfaces;
 using M31.FluentApi.Attributes;
 
 namespace IgGenerator.DataObjectHandling;

@@ -1,4 +1,4 @@
-namespace IgGenerator.ConsoleHandling;
+namespace IgGenerator.ConsoleHandling.Interfaces;
 
 public interface IUserInteractionHandler
 {

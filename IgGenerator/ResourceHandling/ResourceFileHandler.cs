@@ -1,6 +1,8 @@
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
 using IgGenerator.ConsoleHandling;
+using IgGenerator.ConsoleHandling.Interfaces;
+using IgGenerator.ResourceHandling.Interfaces;
 
 namespace IgGenerator.ResourceHandling;
 

@@ -1,6 +1,7 @@
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
+using IgGenerator.ConsoleHandling.Interfaces;
 
 namespace IgGenerator.ConsoleHandling;
 

@@ -1,4 +1,5 @@
 using IgGenerator.ConsoleHandling;
+using IgGenerator.ConsoleHandling.Interfaces;
 
 namespace IgGenerator.IgHandling;
 

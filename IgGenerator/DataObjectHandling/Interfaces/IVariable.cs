@@ -1,15 +1,4 @@
-﻿using System.Runtime.InteropServices.ComTypes;
-
-namespace IgGenerator.DataObjectHandling;
-
-public interface IDataObjectVariables : IVariable
-{
-    public string ResourceName { get; set; }
-    public string Canonical { get; set; }
-    public string? CoreUrl { get; set; }
-    public IDictionary<string, string>? ExampleNamesAndIds { get; set; }
-    public string GetFilename();
-}
+﻿namespace IgGenerator.DataObjectHandling.Interfaces;
 
 public interface IVariable
 {
@@ -27,10 +16,4 @@ public interface IVariable
     public const string STARTTOCOBJECT = "%igg.startTocObject";
     public const string ENDTOCOBJECT = "%igg.endTocObject";
     public const string VARNAME_TERMNAME = "%igg.termname";
-}
-
-public interface IDataObjectTerminologyVariables : IVariable
-{
-    public string? TerminologyName { get; set; }
-    public string? Canonical { get; set; }
 }
