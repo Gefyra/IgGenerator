@@ -15,8 +15,6 @@ public class Application(
     IUserInteractionHandler userInteractionHandler)
     : IApplication
 {
-    private readonly INamingManipulationHandler _namingManipulationHandler = namingManipulationHandler;
-
     public void StartWorkflow()
     {
         userInteractionHandler.AskCacheUsage();
