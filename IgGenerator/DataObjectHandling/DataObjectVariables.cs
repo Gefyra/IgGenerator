@@ -10,6 +10,7 @@ public class DataObjectVariables : IDataObjectVariables
     [FluentMember(1)]
     public string? Canonical { get; set; }
     [FluentMember(3)]
+    [FluentNullable("WithNoCoreUrl")]
     public string? CoreUrl { get; set; }
     [FluentMember(4)]
     [FluentNullable("WithNoExample")]

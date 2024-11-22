@@ -7,10 +7,12 @@ public partial class DataObjectTemplateHandler : IDataObjectTemplateHandler
     private const string DataObjectFolderName = "./IgTemplate/Einfuehrung/Datenobjekte";
     private const string SingleDataObjectTemplateFolderName = $"{DataObjectFolderName}/Datenobjekte_Template";
     private const string CodeSystemTemplateFolder = $"{DataObjectFolderName}/Terminologien/";
+    private const string ExtensionTemplateFolder = $"{DataObjectFolderName}/Extensions/";
 
     private readonly Dictionary<string, string> _dataObjectTemplates;
     private KeyValuePair<string, string> _codeSystemTemplate;
-    
+    private KeyValuePair<string, string> _extensionTemplate;
+
     public Dictionary<string, string> TopLevelDataObjectFixFiles { get; init; }
     public Dictionary<string, string> TerminologyFixFiles { get; init; }
 
@@ -22,6 +24,7 @@ public partial class DataObjectTemplateHandler : IDataObjectTemplateHandler
 
         LoadSingleDataObjectTemplates();
         LoadCodeSystemTemplate();
+        LoadExtensionTemplate();
         LoadFixedFiles();
         LoadTerminologyFixFiles();
     }
@@ -57,10 +60,17 @@ public partial class DataObjectTemplateHandler : IDataObjectTemplateHandler
     {
         DirectoryInfo dir = new(CodeSystemTemplateFolder);
         FileInfo? file = dir.EnumerateFiles().FirstOrDefault(e => e.Name.StartsWith("CodeSystem"));
-        _codeSystemTemplate = new KeyValuePair<string, string>(file.Name, File.ReadAllText(file.FullName));
+        _codeSystemTemplate = new KeyValuePair<string, string>(file!.Name, File.ReadAllText(file.FullName));
+    }
+    
+    private void LoadExtensionTemplate()
+    {
+        DirectoryInfo dir = new(ExtensionTemplateFolder);
+        FileInfo? file = dir.EnumerateFiles().FirstOrDefault(e => e.Name.StartsWith("%igg.resourceName.page.md"));
+        _extensionTemplate = new KeyValuePair<string, string>(file!.Name, File.ReadAllText(file.FullName));
     }
 
-    public IDictionary<string, string> ApplyVariables(IDataObjectVariables variables) =>
+    public IDictionary<string, string> ApplyProfileVariables(IDataObjectVariables variables) =>
         _dataObjectTemplates
             .ToDictionary(
                 file => ApplyVariable(file.Key, variables), 
@@ -68,10 +78,15 @@ public partial class DataObjectTemplateHandler : IDataObjectTemplateHandler
                     ? HandleExample(file.Value, variables)
                     : ApplyVariable(file.Value, variables));
     
-    public KeyValuePair<string, string> ApplyVariables(IDataObjectTerminologyVariables variables) =>
+    public KeyValuePair<string, string> ApplyTermVariables(IDataObjectTerminologyVariables variables) =>
         new(
             ApplyVariable(_codeSystemTemplate.Key, variables),
             ApplyVariable(_codeSystemTemplate.Value, variables));
+    
+    public KeyValuePair<string, string> ApplyExtensionVariables(IDataObjectVariables variables) =>
+        new(
+            ApplyVariable(_extensionTemplate.Key, variables),
+            ApplyVariable(_extensionTemplate.Value, variables));
 
     private static string HandleExample(string content, IDataObjectVariables variables)
     {

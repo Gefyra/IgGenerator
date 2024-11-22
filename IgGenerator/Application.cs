@@ -21,11 +21,13 @@ public class Application(
         resourceFileHandler.StartConsoleWorkflow();
         IDictionary<string, IDictionary<string, string>> appliedDataObjects = igHandler.ApplyTemplateToAllSupportedProfiles();
         IDictionary<string, string> appliedCodeSystems = igHandler.ApplyTemplateToCodeSystems();
+        IDictionary<string, string> appliedExtensions = igHandler.ApplyTemplateToExtensions();
         
         namingManipulationHandler.StartConsoleWorkflow();
         
         igFileHandler.StartConsoleWorkflow();
         igFileHandler.SaveExtractedDataObjectFiles(appliedDataObjects);
         igFileHandler.SaveExtractedCodeSystemFiles(appliedCodeSystems);
+        igFileHandler.SaveExtractedExtensionFiles(appliedExtensions);
     }
 }

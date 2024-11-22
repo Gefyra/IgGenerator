@@ -38,33 +38,45 @@ public partial class IgFileHandler :IIgFileHandler
         {
             string match = _namingManipulationHandler.FilterPartFromFilename(LastPartOfCanonical().Match(dataObject.Key).Value);
             string folder = $"{fullPath}/Datenobjekt_{match}";
-            Directory.CreateDirectory(folder);
-            foreach (KeyValuePair<string, string> dataObjectFile in dataObject.Value)
-            {
-                string file = $"{folder}/{_namingManipulationHandler.FilterPartFromFilename(dataObjectFile.Key)}";
-                File.Create(file).Dispose();
-                File.WriteAllText(file, dataObjectFile.Value);
-                _userInteractionHandler.Send($"{file} has been created");
-            }
+            SimpleAllFilesFromDirectory(dataObject.Value, folder);
         }
     }
 
     public void SaveExtractedCodeSystemFiles(IDictionary<string, string> extractedCodeSystems)
     {
-        string dataObjectFolderName = "Datenobjekte";
-        string? fullPath = _directory.FindFolderPath(dataObjectFolderName);
         const string terminologyFolderName = "Terminologien";
+        string? fullPath = GetDataObjectPath(terminologyFolderName);
 
-        if (!Directory.Exists($"{fullPath}/{terminologyFolderName}"))
+        SimpleAllFilesFromDirectory(extractedCodeSystems, fullPath);
+    }
+
+    public void SaveExtractedExtensionFiles(IDictionary<string, string> extractedExtensions)
+    {
+        const string extensionFolderName = "Extensions";
+        string? fullPath = GetDataObjectPath(extensionFolderName);
+
+        SimpleAllFilesFromDirectory(extractedExtensions, fullPath);
+    }
+
+    private string? GetDataObjectPath(string subfolder)
+    {
+        string dataObjectFolderName = "Datenobjekte";
+        string? fullPath = _directory.FindFolderPath(dataObjectFolderName) + "/" + subfolder;
+        return fullPath;
+    }
+
+    private void SimpleAllFilesFromDirectory(IDictionary<string, string> files, string? fullPath )
+    {
+        if (!Directory.Exists($"{fullPath}"))
         {
-            Directory.CreateDirectory($"{fullPath}/{terminologyFolderName}");
+            Directory.CreateDirectory($"{fullPath}");
         }
-        
-        foreach (KeyValuePair<string, string> codeSystem in extractedCodeSystems)
+
+        foreach (KeyValuePair<string, string> extension in files)
         {
-            string file = $"{fullPath}/{terminologyFolderName}/{codeSystem.Key}";
+            string file = $"{fullPath}/{extension.Key}";
             File.Create(file).Dispose();
-            File.WriteAllText(file, codeSystem.Value);
+            File.WriteAllText(file, extension.Value);
             _userInteractionHandler.Send($"{file} has been created");
         }
     }

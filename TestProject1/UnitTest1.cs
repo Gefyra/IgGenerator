@@ -34,7 +34,7 @@ public class UnitTest1
         }
 
         //Act
-        IDictionary<string, string> files = dataObjectTemplateHandler.ApplyVariables(variables);
+        IDictionary<string, string> files = dataObjectTemplateHandler.ApplyProfileVariables(variables);
 
         //Assert
         foreach (KeyValuePair<string, string> pair in _check)
@@ -133,6 +133,28 @@ public class UnitTest1
         //Assert
         codeSystems.Should().NotBeNull();
         codeSystems.Count().Should().Be(5);
+    }
+    
+    [Fact]
+    public void ResourceHandler_GetUsedExtensions()
+    {
+        Mock<IUserInteractionHandler> userInterationHandlerMock = new();
+        userInterationHandlerMock
+            .Setup(x => x.GetString(It.Is<string>(s => s == "Path of Resources:")))
+            .Returns("./ResourcesCheck/Resources");
+        userInterationHandlerMock.Setup(x => x.GetNumber(It.IsAny<string>(), It.IsAny<int>())).Returns(0);
+        
+        IResourceFileHandler fileHandler = new ResourceFileHandler(userInterationHandlerMock.Object);
+
+        IResourceHandler resourceHandler = new ResourceHandler(fileHandler, userInterationHandlerMock.Object);
+
+        //Act
+        fileHandler.StartConsoleWorkflow();
+        (string name, string canonical)[] extensions = resourceHandler.GetUsedExtensions().ToArray();
+        
+        //Assert
+        extensions.Should().NotBeNull();
+        extensions.Count().Should().Be(13);
     }
     
     [Fact]

@@ -30,6 +30,37 @@ public partial class ResourceHandler : IResourceHandler
         return sdFile?.Select(e=>_parser.Parse<CodeSystem>(File.ReadAllText(e.FullName))) ?? Array.Empty<CodeSystem>();
     }
 
+    public IEnumerable<(string name, string canonical)> GetUsedExtensions()
+    {
+        IEnumerable<FileInfo>? sdFile = _fileHandler.AllJsonFiles?.Where(e => e.Name.StartsWith($"StructureDefinition-")).ToArray();
+
+        List<(string name, string canonical)> usedExtensions = new();
+        
+        foreach (FileInfo fileInfo in sdFile!)
+        {
+            string sdContent = File.ReadAllText(fileInfo.FullName);
+            StructureDefinition sd = _parser.Parse<StructureDefinition>(sdContent);
+
+            foreach (ElementDefinition elementDefinition in sd.Differential.Element.Where(e=>e.Type.Any(t=>t.Code == "Extension")))
+            {
+                (string name, string canonical) tuple = ExtractExtensionTuple(sd.Type, elementDefinition);
+                if (usedExtensions.All(e => e.canonical != tuple.canonical))
+                {
+                    usedExtensions.Add(tuple);
+                }
+            }
+        }
+
+        return usedExtensions.AsEnumerable();
+    }
+
+    private static (string name, string canonical) ExtractExtensionTuple(string resourceName, ElementDefinition elementDefinition)
+    {
+        string name = $"{resourceName}-{elementDefinition.SliceName}"; //TODO Name bei Simplifier EP abfragen
+        string? canonical = elementDefinition.Type.First(e => e.Code == "Extension").Profile.FirstOrDefault();
+        return (name, canonical)!;
+    }
+
     public StructureDefinition GetStructureDefinition(string supportedProfile)
     {
         const string pattern = @"[^/]+$";

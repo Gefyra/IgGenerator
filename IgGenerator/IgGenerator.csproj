@@ -21,6 +21,9 @@
       <None Update="IgTemplate\**">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <None Update="IgTemplate\Einfuehrung\Datenobjekte\Extensions\%igg.resourceName.page.md">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

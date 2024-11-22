@@ -1,5 +1,5 @@
 ---
-canonical: http://fhir.de/StructureDefinition/Wahlleistung
+canonical: %igg.canonical
 expand: 2
 ---
 
@@ -31,7 +31,6 @@ select
 
 <tabs>
   <tab title="Darstellung">{{tree, snapshot}}</tab>
-
   <tab title="XML">{{xml}}</tab>
   <tab title="JSON">{{json}}</tab>
   <tab title="Link">{{link}}</tab> 

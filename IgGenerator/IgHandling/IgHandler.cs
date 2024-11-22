@@ -26,7 +26,7 @@ public class IgHandler(
             StructureDefinition profileSd = resourceHandler.GetStructureDefinition(supportedProfile);
             IDataObjectVariables variables = ExtractVariablesFromStructureDefinition(profileSd);
             
-            IDictionary<string, string> chapter = templateHandler.ApplyVariables(variables);
+            IDictionary<string, string> chapter = templateHandler.ApplyProfileVariables(variables);
             result.Add(supportedProfile, chapter);
         }
 
@@ -42,7 +42,22 @@ public class IgHandler(
         foreach (CodeSystem codeSystem in codeSystems)
         {
             IDataObjectTerminologyVariables variables = ExtractVariablesFromCodeSystem(codeSystem);
-            result.Add(templateHandler.ApplyVariables(variables));
+            result.Add(templateHandler.ApplyTermVariables(variables));
+        }
+
+        return result;
+    }
+
+    public IDictionary<string, string> ApplyTemplateToExtensions()
+    {
+        IEnumerable<(string name, string canonical)> extensions = resourceHandler.GetUsedExtensions();
+
+        IDictionary<string, string> result = new Dictionary<string, string>();
+
+        foreach ((string name, string canonical) extension in extensions)
+        {
+            IDataObjectVariables variables = ExtractVariablesFromExtensionTupel(extension);
+            result.Add(templateHandler.ApplyExtensionVariables(variables));
         }
 
         return result;
@@ -62,4 +77,10 @@ public class IgHandler(
         CreateDataObjectTerminologyVariables
             .WithTerminologyName(codeSystem.Name)
             .WithCanonical(codeSystem.UrlElement.Value);
+    
+    private static IDataObjectVariables ExtractVariablesFromExtensionTupel((string name, string canonical) extension) =>
+        CreateDataObjectVariables
+            .WithResourceName(extension.name)
+            .WithCanonical(extension.canonical)
+            .WithNoCoreUrl().WithNoExample();
 }
