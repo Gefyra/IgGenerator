@@ -66,7 +66,7 @@ public class UserInteractionHandler : IUserInteractionHandler
                 answer = "true";
             }
 
-            if (answer?.ToLower() == "n" || answer?.ToLower() == "f")
+            if (answer?.ToLower() == "n" || answer?.ToLower() == "f" || string.IsNullOrEmpty(answer))
             {
                 answer = "false";
             }

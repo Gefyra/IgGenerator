@@ -24,7 +24,11 @@ public class IgHandler(
 
         foreach (string supportedProfile in supportedProfiles)
         {
-            StructureDefinition profileSd = resourceHandler.GetStructureDefinition(supportedProfile);
+            StructureDefinition? profileSd = resourceHandler.GetStructureDefinition(supportedProfile);
+            if (profileSd == null)
+            {
+                continue;
+            }
             IDataObjectVariables variables = ExtractVariablesFromStructureDefinition(profileSd);
             
             IDictionary<string, string> chapter = templateHandler.ApplyProfileVariables(variables);

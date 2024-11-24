@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
+using Hl7.Fhir.Specification.Source;
 using IgGenerator.ConsoleHandling;
 using IgGenerator.ConsoleHandling.Interfaces;
 using IgGenerator.ResourceHandling.Interfaces;
@@ -63,23 +64,38 @@ public partial class ResourceHandler : IResourceHandler
         return (name, canonical)!;
     }
 
-    public StructureDefinition GetStructureDefinition(string supportedProfile)
+    public StructureDefinition? GetStructureDefinition(string supportedProfile)
     {
-        const string pattern = @"[^/]+$";
-        string match = LastPartOfCanonical().Match(supportedProfile).Value;
-        IEnumerable<FileInfo>? sdFile = _fileHandler.AllJsonFiles?.Where(e => e.Name.Equals($"StructureDefinition-{match}.json")).ToArray();
-        int number = 0;
-        if (sdFile.Count() > 1)
+        StructureDefinition? structureDefinition = _fileHandler.GetCachedResolver().ResolveByCanonicalUriAsync(supportedProfile).Result as StructureDefinition;
+
+        if (structureDefinition == null)
         {
-            for (int iii = 0; iii < sdFile.Count(); iii++)
+
+            const string pattern = @"[^/]+$";
+            string match = LastPartOfCanonical().Match(supportedProfile).Value;
+            IEnumerable<FileInfo>? sdFile = _fileHandler.AllJsonFiles
+                ?.Where(e => e.Name.Equals($"StructureDefinition-{match}.json")).ToArray();
+            int number = 0;
+            if (sdFile.Count() > 1)
             {
-                Console.WriteLine($"{iii}: {sdFile.ElementAt(iii).Name}");
+                for (int iii = 0; iii < sdFile.Count(); iii++)
+                {
+                    Console.WriteLine($"{iii}: {sdFile.ElementAt(iii).Name}");
+                }
+
+                number = _userInteractionHandler.GetNumber("Which one? (Type number, default 0):", 0);
             }
 
-            number = _userInteractionHandler.GetNumber("Which one? (Type number, default 0):", 0);
+            if (!sdFile.Any())
+            {
+                _userInteractionHandler.Send($"No structure definition found for canonical {supportedProfile}.");
+                return null;
+            }
+            structureDefinition =
+                _parser.Parse<StructureDefinition>(File.ReadAllText(sdFile.ElementAt(number).FullName));
         }
-        
-        return _parser.Parse<StructureDefinition>(File.ReadAllText(sdFile.ElementAt(number).FullName));
+
+        return structureDefinition;
     }
 
     [GeneratedRegex("[^/]+$")]
