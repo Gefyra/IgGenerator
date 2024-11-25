@@ -1,6 +1,5 @@
 using FluentAssertions;
 using Hl7.Fhir.Model;
-using IgGenerator.ConsoleHandling;
 using IgGenerator.ConsoleHandling.Interfaces;
 using IgGenerator.DataObjectHandling;
 using IgGenerator.DataObjectHandling.Interfaces;
@@ -27,7 +26,7 @@ public class UnitTest1
         IDataObjectVariables variables = CreateDataObjectVariables
             .WithResourceName("Patient")
             .WithCanonical("https://gematik.de/fhir/isik/StructureDefinition/ISiKPatient")
-            .WithCoreUrl("https://hl7.org/fhir/R4/patient.html")
+            .WithBaseUrl("https://hl7.org/fhir/R4/patient.html")
             .WithExampleNamesAndIds(example);
         string checkFolderName = "./IgTemplateCheck/Einfuehrung/Datenobjekte/Datenobjekte_Template";
         DirectoryInfo directoryInfo = new(checkFolderName);

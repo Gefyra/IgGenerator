@@ -152,15 +152,16 @@ public partial class TemplateHandler : ITemplateHandler
     {
         return variables switch
         {
-            IDataObjectVariables variable => input
+            IDataObjectVariables variable => RemoveRules(input
                 .Replace(IVariable.VARNAME_CANONICAL, variable.Canonical)
-                .Replace(IVariable.VARNAME_COREURL, variable.CoreUrl)
+                .Replace(IVariable.VARNAME_BASEURL, variable.BaseUrl != null && variable.BaseUrl.Contains("hl7.org") ? "": variable.BaseUrl)
                 .Replace(IVariable.VARNAME_RESOURCENAME, variable.ResourceName)
                 .Replace(IVariable.VARNAME_FILENAME_UMLAUT, _namingManipulationHandler.FilterPartFromFilename(variable.GetFilename().ChangeUmlaut()))
                 .Replace(IVariable.VARNAME_FILENAME, _namingManipulationHandler.FilterPartFromFilename(variable.GetFilename()))
                 .Replace(IVariable.STARTTOCOBJECT, "")
                 .Replace(IVariable.ENDTOCOBJECT, "")
-                .Replace("%igg", ""),
+                .Replace(IVariable.REMOVE_ON_CORE_BASE, "")
+                .Replace("%igg", ""), variable),
             IDataObjectTerminologyVariables variable => input
                 .Replace(IVariable.VARNAME_TERMNAME, variable.TerminologyName)
                 .Replace(IVariable.VARNAME_CANONICAL, variable.Canonical)
@@ -169,6 +170,19 @@ public partial class TemplateHandler : ITemplateHandler
                 .Replace("%igg", ""),
             _ => string.Empty
         };
+    }
+
+    private static string RemoveRules(string input, IDataObjectVariables variable)
+    {
+        string result = input;
+        if (variable.BaseUrl != null && variable.BaseUrl.Contains("http://hl7.org/fhir/StructureDefinition/"))
+        {
+            result = string.Join("\n", input
+                .Split('\n')
+                .Where(line =>
+                    !line.TrimStart().StartsWith(IVariable.REMOVE_ON_CORE_BASE, StringComparison.OrdinalIgnoreCase)));
+        }
+        return result;
     }
 
     [GeneratedRegex(@"%igg\.startExample\s*(.*?)\s*%igg\.endExample", RegexOptions.Singleline)]

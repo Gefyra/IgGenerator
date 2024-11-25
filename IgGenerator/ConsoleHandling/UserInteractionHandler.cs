@@ -61,14 +61,19 @@ public class UserInteractionHandler : IUserInteractionHandler
         do
         {
             answer = Console.ReadLine();
-            if (answer?.ToLower() == "y" || answer?.ToLower() == "t")
+            if (answer?.ToLower() == "y" || answer?.ToLower() == "t" || answer?.ToLower() == "yes")
             {
                 answer = "true";
             }
 
-            if (answer?.ToLower() == "n" || answer?.ToLower() == "f" || string.IsNullOrEmpty(answer))
+            if (answer?.ToLower() == "n" || answer?.ToLower() == "f" || answer?.ToLower() == "no" )
             {
                 answer = "false";
+            }
+
+            if (string.IsNullOrEmpty(answer))
+            {
+                answer = defaultAnswer ? "true" : "false";
             }
         } while (string.IsNullOrEmpty(answer) && bool.TryParse(answer, out _));
 
