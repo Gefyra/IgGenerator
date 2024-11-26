@@ -78,7 +78,7 @@ public class IgHandler(
         IDataObjectVariables variables = CreateDataObjectVariables
             .WithResourceName(profileSd.Type)
             .WithCanonical(profileSd.UrlElement.Value)
-            .WithCoreUrl(profileSd.BaseDefinition)
+            .WithBaseUrl(profileSd.BaseDefinition)
             .WithNoExample(); //TODO ExampleSelection
         return variables;
     }
@@ -92,5 +92,5 @@ public class IgHandler(
         CreateDataObjectVariables
             .WithResourceName(extension.name)
             .WithCanonical(extension.canonical)
-            .WithNoCoreUrl().WithNoExample();
+            .WithNoBaseUrl().WithNoExample();
 }

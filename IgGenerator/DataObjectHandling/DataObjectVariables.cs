@@ -12,8 +12,8 @@ public partial class DataObjectVariables : IDataObjectVariables
     [FluentMember(1)]
     public string? Canonical { get; set; }
     [FluentMember(3)]
-    [FluentNullable("WithNoCoreUrl")]
-    public string? CoreUrl { get; set; }
+    [FluentNullable("WithNoBaseUrl")]
+    public string? BaseUrl { get; set; }
     [FluentMember(4)]
     [FluentNullable("WithNoExample")]
     public IDictionary<string, string>? ExampleNamesAndIds { get; set; }
