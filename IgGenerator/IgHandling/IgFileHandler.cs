@@ -38,8 +38,8 @@ public partial class IgFileHandler :IIgFileHandler
 
         if (fullPath == null)
         {
-            //TODO Besseres Errorhandling
-            _userInteractionHandler.SendAndExit($"There is no subfolder {dataObjectFolderName} at {_directory.FullName}");
+            _directory.CreateSubdirectory(dataObjectFolderName);
+            _userInteractionHandler.Send($"There is no subfolder {dataObjectFolderName} at {_directory.FullName}. Folder created!");
         }
         
         foreach (KeyValuePair<string, IDictionary<string, string>> dataObject in extractedDataObjects)
@@ -68,7 +68,7 @@ public partial class IgFileHandler :IIgFileHandler
 
     public void SaveCopyPasteFiles()
     {
-        string? fullPath = _directory.FindFolderPath("Einfuehrung");
+        string? fullPath = _directory.FullName;
         
         SimpleAllFilesFromDirectory(_iTemplateHandler.CopyPasteFiles, fullPath);
     }

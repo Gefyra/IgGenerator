@@ -8,7 +8,7 @@ namespace IgGenerator.DataObjectHandling;
 public partial class TemplateHandler : ITemplateHandler
 {
     private const string DataObjectFolderName = "Datenobjekte";
-    private const string DataObjectFolderPath = "./IgTemplate/Einfuehrung/Datenobjekte";
+    private const string DataObjectFolderPath = "./IgTemplate/Datenobjekte";
     private const string SingleDataObjectTemplateFolderName = $"{DataObjectFolderPath}/Datenobjekte_Template";
     private const string CodeSystemTemplateFolder = $"{DataObjectFolderPath}/Terminologien/";
     private const string ExtensionTemplateFolder = $"{DataObjectFolderPath}/Extensions/";

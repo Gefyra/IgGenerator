@@ -30,13 +30,13 @@
       <None Update="IgTemplateCheck\**">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <None Update="IgTemplateCheck\Einfuehrung\Datenobjekte\FQL-Capability-Operations.page.md">
+      <None Update="IgTemplateCheck\Datenobjekte\FQL-Capability-Operations.page.md">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <None Update="IgTemplateCheck\Einfuehrung\Datenobjekte\FQL-Capability-REST.page.md">
+      <None Update="IgTemplateCheck\Datenobjekte\FQL-Capability-REST.page.md">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <None Update="IgTemplateCheck\Einfuehrung\Datenobjekte\FQL-Capability-Search.page.md">
+      <None Update="IgTemplateCheck\Datenobjekte\FQL-Capability-Search.page.md">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
       <None Update="ResourcesCheck\**">

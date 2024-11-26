@@ -1,6 +1,0 @@
-- name: Index
-  filename: Index.page.md
-%igg.startTocObject
-- name: 'CodeSystem: %igg.termname'
-  filename: CodeSystem-%igg.termname.page.md
-%igg.endTocObject

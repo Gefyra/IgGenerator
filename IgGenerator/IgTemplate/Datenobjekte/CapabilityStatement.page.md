@@ -1,6 +1,6 @@
 ---
 topic: CapabilityStatement
-canonical: https://gematik.de/fhir/isik/CapabilityStatement/ISiKCapabilityStatementBasisServer
+canonical: !!!TODO!!!
 ---
 ## Konformitätserklärung [(CapabilityStatement)](https://hl7.org/fhir/R4/capabilitystatement.html)
 
