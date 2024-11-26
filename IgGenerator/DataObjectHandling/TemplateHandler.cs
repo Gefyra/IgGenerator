@@ -164,6 +164,7 @@ public partial class TemplateHandler : ITemplateHandler
             IDataObjectTerminologyVariables variable => input
                 .Replace(IVariable.VARNAME_TERMNAME, variable.TerminologyName)
                 .Replace(IVariable.VARNAME_CANONICAL, variable.Canonical)
+                .Replace(IVariable.VARNAME_FILENAME, _namingManipulationHandler.FilterPartFromFilename(variable.TerminologyName!))
                 .Replace(IVariable.STARTTOCOBJECT, "")
                 .Replace(IVariable.ENDTOCOBJECT, "")
                 .Replace("%igg", ""),

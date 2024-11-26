@@ -6,7 +6,7 @@ namespace IgGenerator.IgHandling;
 public class NamingManipulationHandler(IUserInteractionHandler userInteractionHandler) : INamingManipulationHandler
 {
     private bool DoNamingManipulation { get; set; }
-    private string? filterPartFromFilename;
+    private string[]? filterPartFromFilename;
 
 
     public void StartConsoleWorkflow()
@@ -16,11 +16,9 @@ public class NamingManipulationHandler(IUserInteractionHandler userInteractionHa
 
     public string FilterPartFromFilename(string filename)
     {
-        string result = filename;
-        if (!DoNamingManipulation) return result;
-        filterPartFromFilename ??= userInteractionHandler.GetString("Part to filter from filename:");
-        result = result.Replace(filterPartFromFilename, "");
-        return result;
+        if (!DoNamingManipulation) return filename;
+        filterPartFromFilename ??= userInteractionHandler.GetString("Part to filter from filename (comma-separated list - no whitespace!):").Split(',');
+        return filterPartFromFilename.Aggregate(filename, (current, filter) => current.Replace(filter, ""));
     }
 
 }

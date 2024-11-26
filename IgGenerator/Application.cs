@@ -17,14 +17,15 @@ public class Application(
 {
     public void StartWorkflow()
     {
-        userInteractionHandler.AskCacheUsage();
+        userInteractionHandler.AskCacheUsage(); 
         
+        namingManipulationHandler.StartConsoleWorkflow();
+
         resourceFileHandler.StartConsoleWorkflow();
         IDictionary<string, IDictionary<string, string>> appliedDataObjects = igHandler.ApplyTemplateToAllSupportedProfiles();
         IDictionary<string, string> appliedCodeSystems = igHandler.ApplyTemplateToCodeSystems();
         IDictionary<string, string> appliedExtensions = igHandler.ApplyTemplateToExtensions();
 
-        namingManipulationHandler.StartConsoleWorkflow();
 
         igFileHandler.StartConsoleWorkflow();
         igFileHandler.SaveExtractedDataObjectFiles(appliedDataObjects);
