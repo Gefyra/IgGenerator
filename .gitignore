@@ -69,7 +69,6 @@ _ReSharper*/
 *.DotSettings.user
 
 # Click-Once directory
-publish/
 
 # Publish Web Output
 *.Publish.xml
