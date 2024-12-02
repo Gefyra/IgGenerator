@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using Hl7.Fhir.Model;
 using IgGenerator.DataObjectHandling.Interfaces;
 using IgGenerator.Helpers;
 using IgGenerator.IgHandling;
@@ -8,7 +9,7 @@ namespace IgGenerator.DataObjectHandling;
 public partial class TemplateHandler : ITemplateHandler
 {
     private const string DataObjectFolderName = "Datenobjekte";
-    private const string DataObjectFolderPath = "./IgTemplate/Datenobjekte";
+    private const string DataObjectFolderPath = "./IgTemplate/Home/Datenobjekte";
     private const string SingleDataObjectTemplateFolderName = $"{DataObjectFolderPath}/Datenobjekte_Template";
     private const string CodeSystemTemplateFolder = $"{DataObjectFolderPath}/Terminologien/";
     private const string ExtensionTemplateFolder = $"{DataObjectFolderPath}/Extensions/";
@@ -59,7 +60,7 @@ public partial class TemplateHandler : ITemplateHandler
         DirectoryInfo dir = new(DataObjectFolderPath);
         foreach (FileInfo fileInfo in dir.EnumerateFiles("*.md", SearchOption.AllDirectories))
         {
-            if (!fileInfo.Name.Contains("%igg"))
+            if (!fileInfo.Name.Contains("$$"))
             {
                 CopyPasteFiles.Add(fileInfo.FullName.GetPathFromFolder(DataObjectFolderName)!, File.ReadAllText(fileInfo.FullName));
             }
@@ -94,32 +95,34 @@ public partial class TemplateHandler : ITemplateHandler
     private void LoadExtensionTemplate()
     {
         DirectoryInfo dir = new(ExtensionTemplateFolder);
-        FileInfo? file = dir.EnumerateFiles().FirstOrDefault(e => e.Name.StartsWith("%igg.resourceName.page.md"));
+        FileInfo? file = dir.EnumerateFiles().FirstOrDefault(e => e.Name.StartsWith("$$"));
         _extensionTemplate = new KeyValuePair<string, string>(file!.Name, File.ReadAllText(file.FullName));
     }
 
-    public IDictionary<string, string> ApplyProfileVariables(IDataObjectVariables variables) =>
+    public IDictionary<string, string> ApplyProfileVariables(IVariable variables) =>
         _dataObjectTemplates
             .ToDictionary(
-                file => ApplyVariable(file.Key, variables), 
+                file => variables.ApplyVariables(file.Key), 
                 file => file.Key.Contains("Beispiele")
                     ? HandleExample(file.Value, variables)
-                    : ApplyVariable(file.Value, variables));
+                    : variables.ApplyVariables(file.Value));
     
-    public KeyValuePair<string, string> ApplyTermVariables(IDataObjectTerminologyVariables variables) =>
-        new(
-            ApplyVariable(_codeSystemTemplate.Key, variables),
-            ApplyVariable(_codeSystemTemplate.Value, variables));
-    
-    public KeyValuePair<string, string> ApplyExtensionVariables(IDataObjectVariables variables) =>
-        new(
-            ApplyVariable(_extensionTemplate.Key, variables),
-            ApplyVariable(_extensionTemplate.Value, variables));
+    public KeyValuePair<string, string> ApplyVariables(IVariable variables) =>
+        variables switch
+        {
+            CodeSystemVariables => new KeyValuePair<string, string>(
+                variables.ApplyVariables(_codeSystemTemplate.Key),
+                variables.ApplyVariables(_codeSystemTemplate.Value)),
+            ExtensionVariables => new KeyValuePair<string, string>(
+                variables.ApplyVariables(_extensionTemplate.Key),
+                variables.ApplyVariables(_extensionTemplate.Value)),
+            _ => throw new ArgumentOutOfRangeException(nameof(variables), variables, null)
+        };
 
-    private string HandleExample(string content, IDataObjectVariables variables)
+    private string HandleExample(string content, IVariable variables)
     {
-        Match match = ExampleRegex().Match(content);
-        string resultContent = ApplyVariable(content.Replace("\n" + match.Value, ""), variables);
+/*        Match match = ExampleRegex().Match(content);
+        string resultContent = variables.ApplyVariables(content.Replace("\n" + match.Value, ""));
 
         if (variables.ExampleNamesAndIds != null)
         {
@@ -132,63 +135,25 @@ public partial class TemplateHandler : ITemplateHandler
         
         return resultContent
             .Replace(IVariable.STARTEXAMPLE,"")
-            .Replace(IVariable.ENDEXAMPLE,"");
+            .Replace(IVariable.ENDEXAMPLE,"");*/
+        return string.Empty;
     }
     
     public string ApplyTocList(string content, IEnumerable<IVariable> variables)
     {
         Match match = TocObjectRegex().Match(content);
-        IEnumerable<string> allTocObjects = variables.Select(e=>ApplyVariable(match.Value, e));
+        IEnumerable<string> allTocObjects = variables.Select(e=>e.ApplyVariables(match.Value));
 
         string result = allTocObjects.Aggregate(content, (current, exampleContent) => current + exampleContent);
         
         return result
             .Replace(match.Value, "")
-            .Replace(IVariable.STARTTOCOBJECT,"")
-            .Replace(IVariable.ENDTOCOBJECT,"");
-    }
-
-    private string ApplyVariable(string input, IVariable variables)
-    {
-        return variables switch
-        {
-            IDataObjectVariables variable => RemoveRules(input
-                .Replace(IVariable.VARNAME_CANONICAL, variable.Canonical)
-                .Replace(IVariable.VARNAME_BASEURL, variable.BaseUrl != null && variable.BaseUrl.Contains("hl7.org") ? "": variable.BaseUrl)
-                .Replace(IVariable.VARNAME_RESOURCENAME, variable.ResourceName)
-                .Replace(IVariable.VARNAME_FILENAME_UMLAUT, _namingManipulationHandler.FilterPartFromFilename(variable.GetFilename().ChangeUmlaut()))
-                .Replace(IVariable.VARNAME_FILENAME, _namingManipulationHandler.FilterPartFromFilename(variable.GetFilename()))
-                .Replace(IVariable.STARTTOCOBJECT, "")
-                .Replace(IVariable.ENDTOCOBJECT, "")
-                .Replace(IVariable.REMOVE_ON_CORE_BASE, "")
-                .Replace("%igg", ""), variable),
-            IDataObjectTerminologyVariables variable => input
-                .Replace(IVariable.VARNAME_TERMNAME, variable.TerminologyName)
-                .Replace(IVariable.VARNAME_CANONICAL, variable.Canonical)
-                .Replace(IVariable.VARNAME_FILENAME, _namingManipulationHandler.FilterPartFromFilename(variable.TerminologyName!))
-                .Replace(IVariable.STARTTOCOBJECT, "")
-                .Replace(IVariable.ENDTOCOBJECT, "")
-                .Replace("%igg", ""),
-            _ => string.Empty
-        };
-    }
-
-    private static string RemoveRules(string input, IDataObjectVariables variable)
-    {
-        string result = input;
-        if (variable.BaseUrl != null && variable.BaseUrl.Contains("http://hl7.org/fhir/StructureDefinition/"))
-        {
-            result = string.Join("\n", input
-                .Split('\n')
-                .Where(line =>
-                    !line.TrimStart().StartsWith(IVariable.REMOVE_ON_CORE_BASE, StringComparison.OrdinalIgnoreCase)));
-        }
-        return result;
+            .ReplaceVars();
     }
 
     [GeneratedRegex(@"%igg\.startExample\s*(.*?)\s*%igg\.endExample", RegexOptions.Singleline)]
     private static partial Regex ExampleRegex();
     
-    [GeneratedRegex(@"%igg\.startTocObject\s*(.*?)\s*%igg\.endTocObject", RegexOptions.Singleline)]
+    [GeneratedRegex(@"\$\$startTocObject\s*(.*?)\s*\$\$endTocObject", RegexOptions.Singleline)]
     private static partial Regex TocObjectRegex();
 }

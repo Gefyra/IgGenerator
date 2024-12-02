@@ -1,0 +1,12 @@
+- name: Index
+  filename: Index.page.md
+- name: CapabilityStatements
+  filename: CapabilityStatements
+$$startTocObject
+- name: $$StructureDefinition.name ($$StructureDefinition.type).
+  filename: Datenobjekte_$$Filename
+$$endTocObject
+- name: Terminologien
+  filename: Terminologien
+- name: Extensions
+  filename: Extensions

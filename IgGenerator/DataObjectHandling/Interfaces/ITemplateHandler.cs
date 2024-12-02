@@ -2,9 +2,8 @@ namespace IgGenerator.DataObjectHandling.Interfaces;
 
 public interface ITemplateHandler
 {
-    public IDictionary<string, string> ApplyProfileVariables(IDataObjectVariables variables);
-    public KeyValuePair<string, string> ApplyTermVariables(IDataObjectTerminologyVariables variables);
-    public KeyValuePair<string, string> ApplyExtensionVariables(IDataObjectVariables variables);
+    public IDictionary<string, string> ApplyProfileVariables(IVariable variables);
+    public KeyValuePair<string, string> ApplyVariables(IVariable variables);
     public Dictionary<string, string> CopyPasteFiles { get; }
     public KeyValuePair<string, string> DataObjectTocTemplate { get; }
     public KeyValuePair<string, string> CodeSystemTocTemplate { get; }

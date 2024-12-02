@@ -68,7 +68,7 @@ public partial class IgFileHandler :IIgFileHandler
 
     public void SaveCopyPasteFiles()
     {
-        string? fullPath = _directory.FullName;
+        string? fullPath = _directory.FullName + "/Einfuehrung";
         
         SimpleAllFilesFromDirectory(_iTemplateHandler.CopyPasteFiles, fullPath);
     }

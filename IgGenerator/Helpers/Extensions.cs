@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using IgGenerator.DataObjectHandling.Interfaces;
 
 namespace IgGenerator.Helpers;
 
@@ -42,4 +43,10 @@ public static class Extensions
 
     public static string RemoveEmptyLines(this string input) 
         => string.Join("\n", input.Split('\n').Where(line => !string.IsNullOrWhiteSpace(line)));
+    
+    public static string ReplaceVars(this string content) =>
+        content
+            .Replace(IVariable.STARTTOCOBJECT, "")
+            .Replace(IVariable.ENDTOCOBJECT, "")
+            .Replace("$$", "");
 }

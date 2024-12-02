@@ -29,7 +29,7 @@ public class IgHandler(
             {
                 continue;
             }
-            IDataObjectVariables variables = ExtractVariablesFromStructureDefinition(profileSd);
+            StructureDefinitionVariables variables = new(profileSd);
             
             IDictionary<string, string> chapter = templateHandler.ApplyProfileVariables(variables);
             result.Add(supportedProfile, chapter);
@@ -47,8 +47,8 @@ public class IgHandler(
 
         foreach (CodeSystem codeSystem in codeSystems)
         {
-            IDataObjectTerminologyVariables variables = ExtractVariablesFromCodeSystem(codeSystem);
-            result.Add(templateHandler.ApplyTermVariables(variables));
+            CodeSystemVariables variables = new(codeSystem);
+            result.Add(templateHandler.ApplyVariables(variables));
             
             tocFileManager?.RegisterCodesystem(variables);
         }
@@ -64,33 +64,12 @@ public class IgHandler(
 
         foreach ((string name, string canonical) extension in extensions)
         {
-            IDataObjectVariables variables = ExtractVariablesFromExtensionTupel(extension);
-            result.Add(templateHandler.ApplyExtensionVariables(variables));
+            ExtensionVariables variables = new(extension.name, extension.canonical);
+            result.Add(templateHandler.ApplyVariables(variables));
             
             tocFileManager?.RegisterExtension(variables);
         }
 
         return result;
     }
-
-    private static IDataObjectVariables ExtractVariablesFromStructureDefinition(StructureDefinition profileSd)
-    {
-        IDataObjectVariables variables = CreateDataObjectVariables
-            .WithResourceName(profileSd.Type)
-            .WithCanonical(profileSd.UrlElement.Value)
-            .WithBaseUrl(profileSd.BaseDefinition)
-            .WithNoExample(); //TODO ExampleSelection
-        return variables;
-    }
-    
-    private static IDataObjectTerminologyVariables ExtractVariablesFromCodeSystem(CodeSystem codeSystem) =>
-        CreateDataObjectTerminologyVariables
-            .WithTerminologyName(codeSystem.Name)
-            .WithCanonical(codeSystem.UrlElement.Value);
-    
-    private static IDataObjectVariables ExtractVariablesFromExtensionTupel((string name, string canonical) extension) =>
-        CreateDataObjectVariables
-            .WithResourceName(extension.name)
-            .WithCanonical(extension.canonical)
-            .WithNoBaseUrl().WithNoExample();
 }

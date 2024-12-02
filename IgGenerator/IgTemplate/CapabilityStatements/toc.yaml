@@ -1,0 +1,4 @@
+- name: Index
+  filename: Index.page.md
+- name: 'Akteur: $$CapabilityStatement.name'
+  filename: Akteur-CapabilityStatement.name.page.md

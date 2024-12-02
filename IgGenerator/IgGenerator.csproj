@@ -14,7 +14,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="IgTemplate\" />
+      <Folder Include="IgTemplate_Alt\" />
     </ItemGroup>
 
     <ItemGroup>

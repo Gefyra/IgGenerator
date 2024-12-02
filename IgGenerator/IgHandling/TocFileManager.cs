@@ -20,17 +20,17 @@ public class TocFileManager : ITocFileManager
         _extensionRegistry = new List<IVariable>();
     }
 
-    public void RegisterDataObject(IDataObjectVariables dataObjectVariables)
+    public void RegisterDataObject(IVariable dataObjectVariables)
     {
         _dataObjectRegistry.Add(dataObjectVariables);
     }
 
-    public void RegisterCodesystem(IDataObjectTerminologyVariables terminologyVariables)
+    public void RegisterCodesystem(IVariable terminologyVariables)
     {
         _codesystemRegistry.Add(terminologyVariables);
     }
     
-    public void RegisterExtension(IDataObjectVariables dataObjectVariables)
+    public void RegisterExtension(IVariable dataObjectVariables)
     {
         _extensionRegistry.Add(dataObjectVariables);
     }
@@ -45,15 +45,4 @@ public class TocFileManager : ITocFileManager
     {
         return _templateHandler.ApplyTocList(template.Value, registry);
     }
-}
-
-public interface ITocFileManager
-{
-    public void RegisterDataObject(IDataObjectVariables dataObjectVariables);
-    public void RegisterCodesystem(IDataObjectTerminologyVariables terminologyVariables);
-    public void RegisterExtension(IDataObjectVariables dataObjectVariables);
-    public string GetDataObjectTocFile();
-    public string GetCodeSystemTocFile();
-    public string GetExtensionTocFile();
-
 }

@@ -63,7 +63,7 @@ public partial class ResourceHandler : IResourceHandler
         string? canonical = elementDefinition.Type.First(e => e.Code == "Extension").Profile.FirstOrDefault();
         return (name, canonical)!;
     }
-
+    
     public StructureDefinition? GetStructureDefinition(string supportedProfile)
     {
         StructureDefinition? structureDefinition = _fileHandler.GetCachedResolver().ResolveByCanonicalUriAsync(supportedProfile).Result as StructureDefinition;
