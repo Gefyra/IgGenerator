@@ -13,15 +13,15 @@ public partial class IgFileHandler :IIgFileHandler
     private readonly IUserInteractionHandler _userInteractionHandler;
     private readonly INamingManipulationHandler _namingManipulationHandler;
     private DirectoryInfo _directory;
-    private readonly ITemplateHandler _iTemplateHandler;
+    private readonly ITemplateHandler _templateHandler;
     private readonly ITocFileManager _tocFileManager;
     public string igFolderPath { get; private set; }
 
-    public IgFileHandler(IUserInteractionHandler userInteractionHandler, INamingManipulationHandler namingManipulationHandler,ITemplateHandler iTemplateHandler, ITocFileManager tocFileManager)
+    public IgFileHandler(IUserInteractionHandler userInteractionHandler, INamingManipulationHandler namingManipulationHandler,ITemplateHandler templateHandler, ITocFileManager tocFileManager)
     {
         _userInteractionHandler = userInteractionHandler;
         _namingManipulationHandler = namingManipulationHandler;
-        _iTemplateHandler = iTemplateHandler;
+        _templateHandler = templateHandler;
         _tocFileManager = tocFileManager;
     }
 
@@ -76,7 +76,7 @@ public partial class IgFileHandler :IIgFileHandler
 
     public void SaveCopyPasteFiles()
     {
-        SimpleAllFilesFromDirectory(_iTemplateHandler.CopyPasteFiles, igFolderPath);
+        SimpleAllFilesFromDirectory(_templateHandler.GetTemplate([TemplateType.CopyPasteFile]).ToDictionary(e=>e.FileName, e=>e.Content), igFolderPath);
     }
 
     public void SaveTocFiles()

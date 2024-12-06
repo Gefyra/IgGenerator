@@ -37,16 +37,16 @@ public class TocFileManager : ITocFileManager
                 break;
         }
     }
+    
+    public string GetDataObjectTocFile() => GetTocFile(_templateHandler.GetTemplate([TemplateType.TocFile, TemplateType.DataObject]), _sdRegistry);
 
-    public string GetDataObjectTocFile() => GetTocFile(_templateHandler.DataObjectTocTemplate, _sdRegistry);
+    public string GetCodeSystemTocFile() => GetTocFile(_templateHandler.GetTemplate([TemplateType.TocFile, TemplateType.CodeSystem]), _codesystemRegistry);
 
-    public string GetCodeSystemTocFile() => GetTocFile(_templateHandler.CodeSystemTocTemplate, _codesystemRegistry);
+    public string GetExtensionTocFile() => GetTocFile(_templateHandler.GetTemplate([TemplateType.TocFile, TemplateType.Extension]), _extensionRegistry);
+    public string GetCapabilitySatementTocFile() => GetTocFile(_templateHandler.GetTemplate([TemplateType.TocFile, TemplateType.CapabilityStatement]), _capabilityStatementRegistry);
 
-    public string GetExtensionTocFile() => GetTocFile(_templateHandler.ExtensionTocTemplate, _extensionRegistry);
-    public string GetCapabilitySatementTocFile() => GetTocFile(_templateHandler.CapabilityStatementTocTemplate, _capabilityStatementRegistry);
-
-    private string GetTocFile(KeyValuePair<string, string> template, IEnumerable<IVariable> registry)
+    private string GetTocFile(IEnumerable<Template> template, IEnumerable<IVariable> registry)
     {
-        return _templateHandler.ApplyTocList(template.Value, registry);
+        return _templateHandler.ApplyTocList(template.First().Content, registry);
     }
 }
