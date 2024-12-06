@@ -7,7 +7,7 @@ namespace IgGenerator.ConsoleHandling;
 
 public class UserInteractionHandler : IUserInteractionHandler
 {
-    private DictionaryXmlable<string, string> _cache;
+    private DictionaryXmlable<string, string> _cache = null!;
     private bool _useCache = true;
 
 
@@ -96,6 +96,7 @@ public class UserInteractionHandler : IUserInteractionHandler
 
     public void AskCacheUsage()
     {
+        Send(_cache.Aggregate(string.Empty, (current, kvp) => current + $"{kvp.Key} => {kvp.Value}{Environment.NewLine}"));
         _useCache = AskYesNoQuestion("Use Cache?", true);
     }
 
