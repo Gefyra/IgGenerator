@@ -33,6 +33,8 @@ public partial class ResourceHandler : IResourceHandler
         return sdFile?.Select(e=>_parser.Parse<CodeSystem>(File.ReadAllText(e.FullName))) ?? Array.Empty<CodeSystem>();
     }
 
+    public CapabilityStatement? GetCapabilityStatement() => _fileHandler.CapabilityStatement;
+
     public IEnumerable<(string name, string canonical)> GetUsedExtensions()
     {
         IEnumerable<FileInfo>? sdFile = _fileHandler.AllJsonFiles?.Where(e => e.Name.StartsWith($"StructureDefinition-")).ToArray();

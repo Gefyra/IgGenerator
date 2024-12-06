@@ -1,6 +1,0 @@
-- name: Index
-  filename: Index.page.md
-%igg.startTocObject
-- name: %igg.resourceName
-  filename: %igg.resourceName.page.md
-%igg.endTocObject

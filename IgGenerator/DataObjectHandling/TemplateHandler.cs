@@ -13,14 +13,17 @@ public partial class TemplateHandler : ITemplateHandler
     private const string SingleDataObjectTemplateFolderName = $"{DataObjectFolderPath}/Datenobjekte_Template";
     private const string CodeSystemTemplateFolder = $"{DataObjectFolderPath}/Terminologien/";
     private const string ExtensionTemplateFolder = $"{DataObjectFolderPath}/Extensions/";
+    private const string CapabilityStatementFolder = $"{DataObjectFolderPath}/CapabilityStatements/";
 
     private readonly Dictionary<string, string> _dataObjectTemplates;
     private KeyValuePair<string, string> _codeSystemTemplate;
     private KeyValuePair<string, string> _extensionTemplate;
     private readonly INamingManipulationHandler _namingManipulationHandler;
+    private KeyValuePair<string,string> _capabilityStatementTemplate;
     public KeyValuePair<string, string> DataObjectTocTemplate { get; private set; }
     public KeyValuePair<string, string> CodeSystemTocTemplate { get; private set; }
     public KeyValuePair<string, string> ExtensionTocTemplate { get; private set; }
+    public KeyValuePair<string, string> CapabilityStatementTocTemplate { get; private set; }
 
     public Dictionary<string, string> CopyPasteFiles { get; init; }
     public Dictionary<string, string> TerminologyFixFiles { get; init; }
@@ -35,6 +38,7 @@ public partial class TemplateHandler : ITemplateHandler
         LoadSingleDataObjectTemplates();
         LoadCodeSystemTemplate();
         LoadExtensionTemplate();
+        LoadCapabilityStatementTemplate();
         LoadCopyPasteFiles();
         LoadTerminologyFixFiles();
         LoadTocTemplates();
@@ -46,13 +50,17 @@ public partial class TemplateHandler : ITemplateHandler
         FileInfo doTocTemplate = dir.EnumerateFiles("*.yaml", SearchOption.TopDirectoryOnly).First();
         DataObjectTocTemplate = new KeyValuePair<string, string>("toc.yaml", File.ReadAllText(doTocTemplate.FullName));
 
-        DirectoryInfo dirCs = new(CodeSystemTemplateFolder)!;
+        DirectoryInfo dirCs = new(CodeSystemTemplateFolder);
         FileInfo csTocTemplate = dirCs.EnumerateFiles("*.yaml", SearchOption.TopDirectoryOnly).First();
         CodeSystemTocTemplate = new KeyValuePair<string, string>("toc.yaml", File.ReadAllText(csTocTemplate.FullName));
         
-        DirectoryInfo dirEx = new(ExtensionTemplateFolder)!;
+        DirectoryInfo dirEx = new(ExtensionTemplateFolder);
         FileInfo exTocTemplate = dirEx.EnumerateFiles("*.yaml", SearchOption.TopDirectoryOnly).First();
         ExtensionTocTemplate = new KeyValuePair<string, string>("toc.yaml", File.ReadAllText(exTocTemplate.FullName));
+        
+        DirectoryInfo dirCapStmt = new(CapabilityStatementFolder);
+        FileInfo capStmtTocTemplate = dirCapStmt.EnumerateFiles("*.yaml", SearchOption.TopDirectoryOnly).First();
+        CapabilityStatementTocTemplate = new KeyValuePair<string, string>("toc.yaml", File.ReadAllText(capStmtTocTemplate.FullName));
     }
 
     private void LoadCopyPasteFiles()
@@ -98,6 +106,13 @@ public partial class TemplateHandler : ITemplateHandler
         FileInfo? file = dir.EnumerateFiles().FirstOrDefault(e => e.Name.StartsWith("$$"));
         _extensionTemplate = new KeyValuePair<string, string>(file!.Name, File.ReadAllText(file.FullName));
     }
+    
+    private void LoadCapabilityStatementTemplate()
+    {
+        DirectoryInfo dir = new(CapabilityStatementFolder);
+        FileInfo? file = dir.EnumerateFiles().FirstOrDefault(e => e.Name.Contains("$$"));
+        _capabilityStatementTemplate = new KeyValuePair<string, string>(file!.Name, File.ReadAllText(file.FullName));
+    }
 
     public IDictionary<string, string> ApplyProfileVariables(IVariable variables) =>
         _dataObjectTemplates
@@ -116,6 +131,9 @@ public partial class TemplateHandler : ITemplateHandler
             ExtensionVariables => new KeyValuePair<string, string>(
                 variables.ApplyVariables(_extensionTemplate.Key),
                 variables.ApplyVariables(_extensionTemplate.Value)),
+            CapabilityStatementVariables => new KeyValuePair<string, string>(
+                variables.ApplyVariables(_capabilityStatementTemplate.Key),
+                variables.ApplyVariables(_capabilityStatementTemplate.Value)),
             _ => throw new ArgumentOutOfRangeException(nameof(variables), variables, null)
         };
 

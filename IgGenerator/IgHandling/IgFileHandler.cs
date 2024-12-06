@@ -65,12 +65,18 @@ public partial class IgFileHandler :IIgFileHandler
 
         SimpleAllFilesFromDirectory(extractedExtensions, fullPath);
     }
+    
+    public void SaveExtractedCapStmtFiles(IDictionary<string, string> extractedCapStmt)
+    {
+        const string capStmtFolderName = "CapabilityStatements";
+        string? fullPath = GetDataObjectPath(capStmtFolderName);
+
+        SimpleAllFilesFromDirectory(extractedCapStmt, fullPath);
+    }
 
     public void SaveCopyPasteFiles()
     {
-        string? fullPath = _directory.FullName + "/Einfuehrung";
-        
-        SimpleAllFilesFromDirectory(_iTemplateHandler.CopyPasteFiles, fullPath);
+        SimpleAllFilesFromDirectory(_iTemplateHandler.CopyPasteFiles, igFolderPath);
     }
 
     public void SaveTocFiles()
@@ -78,6 +84,7 @@ public partial class IgFileHandler :IIgFileHandler
         SaveDataObjectTocFile();
         SaveCodesystemTocFile();
         SaveExtensionTocFile();
+        SaveCapabilityStatementTocFile();
     }
 
     private void SaveDataObjectTocFile()
@@ -104,6 +111,15 @@ public partial class IgFileHandler :IIgFileHandler
         SimpleAllFilesFromDirectory(new Dictionary<string, string>
         {
             {"toc.yaml", _tocFileManager.GetExtensionTocFile().RemoveEmptyLines()}
+        }, tocFileFolderPath);
+    }
+    
+    private void SaveCapabilityStatementTocFile()
+    {
+        string? tocFileFolderPath = _directory.FindFolderPath("CapabilityStatements");
+        SimpleAllFilesFromDirectory(new Dictionary<string, string>
+        {
+            {"toc.yaml", _tocFileManager.GetCapabilitySatementTocFile().RemoveEmptyLines()}
         }, tocFileFolderPath);
     }
 

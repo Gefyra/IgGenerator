@@ -1,4 +1,6 @@
 - name: Index
   filename: Index.page.md
+$$startTocObject
 - name: 'Akteur: $$CapabilityStatement.name'
-  filename: Akteur-CapabilityStatement.name.page.md
+  filename: Akteur-$$CapabilityStatement.name.page.md
+$$endTocObject

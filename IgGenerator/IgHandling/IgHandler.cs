@@ -34,7 +34,7 @@ public class IgHandler(
             IDictionary<string, string> chapter = templateHandler.ApplyProfileVariables(variables);
             result.Add(supportedProfile, chapter);
 
-            tocFileManager?.RegisterDataObject(variables);
+            tocFileManager?.RegisterVariable(variables);
         }
         return result;
     }
@@ -50,8 +50,22 @@ public class IgHandler(
             CodeSystemVariables variables = new(codeSystem);
             result.Add(templateHandler.ApplyVariables(variables));
             
-            tocFileManager?.RegisterCodesystem(variables);
+            tocFileManager?.RegisterVariable(variables);
         }
+
+        return result;
+    }
+    
+    public IDictionary<string, string> ApplyTemplateToCapabilityStatement()
+    {
+        CapabilityStatement capabilityStatement = resourceHandler.GetCapabilityStatement();
+
+        IDictionary<string, string> result = new Dictionary<string, string>();
+
+        CapabilityStatementVariables variables = new(capabilityStatement);
+        result.Add(templateHandler.ApplyVariables(variables));
+        
+        tocFileManager?.RegisterVariable(variables);
 
         return result;
     }
@@ -67,7 +81,7 @@ public class IgHandler(
             ExtensionVariables variables = new(extension.name, extension.canonical);
             result.Add(templateHandler.ApplyVariables(variables));
             
-            tocFileManager?.RegisterExtension(variables);
+            tocFileManager?.RegisterVariable(variables);
         }
 
         return result;

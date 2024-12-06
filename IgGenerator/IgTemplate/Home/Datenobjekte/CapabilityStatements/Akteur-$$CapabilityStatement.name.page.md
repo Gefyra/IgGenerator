@@ -1,6 +1,6 @@
 ---
 topic: $$CapabilityStatement.name
-canonical:$$CapabilityStatement.url
+canonical: $$CapabilityStatement.url
 ---
 ## Konformitätserklärung [(CapabilityStatement)](https://hl7.org/fhir/R4/capabilitystatement.html)
 
