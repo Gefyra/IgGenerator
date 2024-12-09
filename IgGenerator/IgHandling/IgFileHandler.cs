@@ -76,7 +76,9 @@ public partial class IgFileHandler :IIgFileHandler
 
     public void SaveCopyPasteFiles()
     {
-        SimpleAllFilesFromDirectory(_templateHandler.GetTemplate([TemplateType.CopyPasteFile]).ToDictionary(e=>e.FileName, e=>e.Content), igFolderPath);
+        string dataObjectFolderName = "Datenobjekte";
+        string? fullPath = _directory.FindFolderPath(dataObjectFolderName)?.Replace(dataObjectFolderName, "");
+        SimpleAllFilesFromDirectory(_templateHandler.GetTemplate([TemplateType.CopyPasteFile]).ToDictionary(e=>e.FileName, e=>e.Content), fullPath);
     }
 
     public void SaveTocFiles()

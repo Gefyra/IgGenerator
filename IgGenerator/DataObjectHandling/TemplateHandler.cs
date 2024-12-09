@@ -96,9 +96,9 @@ public partial class TemplateHandler : ITemplateHandler
     public KeyValuePair<string, string> ApplyVariables(IVariable variables) =>
         variables switch
         {
-            CodeSystemVariables => ApplyVariablesToKeyValuePair(variables, _templates.First(e=>e.TemplateType == (TemplateType[])[TemplateType.CodeSystem])),
-            ExtensionVariables => ApplyVariablesToKeyValuePair(variables, _templates.First(e=>e.TemplateType == (TemplateType[])[TemplateType.Extension])),
-            CapabilityStatementVariables => ApplyVariablesToKeyValuePair(variables, _templates.First(e=>e.TemplateType == (TemplateType[])[TemplateType.CapabilityStatement])),
+            CodeSystemVariables => ApplyVariablesToKeyValuePair(variables, _templates.First(e=>e.TemplateType.Contains(TemplateType.CodeSystem))),
+            ExtensionVariables => ApplyVariablesToKeyValuePair(variables, _templates.First(e=>e.TemplateType.Contains(TemplateType.Extension))),
+            CapabilityStatementVariables => ApplyVariablesToKeyValuePair(variables, _templates.First(e=>e.TemplateType.Contains(TemplateType.CapabilityStatement))),
             _ => throw new ArgumentOutOfRangeException(nameof(variables), variables, null)
         };
 
@@ -148,7 +148,7 @@ public partial class TemplateHandler : ITemplateHandler
 
     public IEnumerable<Template> GetTemplate(TemplateType[] templateTypes)
     {
-        return _templates.Where(e => e.TemplateType == templateTypes);
+        return _templates.Where(e => e.TemplateType.Contains(templateTypes[0]) && (templateTypes.Length == 1 || e.TemplateType.Contains(templateTypes[1])));
     }
 
     [GeneratedRegex(@"%igg\.startExample\s*(.*?)\s*%igg\.endExample", RegexOptions.Singleline)]
