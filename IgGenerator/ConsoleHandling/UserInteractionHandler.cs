@@ -75,7 +75,7 @@ public class UserInteractionHandler : IUserInteractionHandler
             {
                 answer = defaultAnswer ? "true" : "false";
             }
-        } while (string.IsNullOrEmpty(answer) && bool.TryParse(answer, out _));
+        } while (string.IsNullOrEmpty(answer) || !bool.TryParse(answer, out _));
 
         AddToCache(question, answer!);
         SaveCache();

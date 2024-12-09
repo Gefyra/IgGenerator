@@ -1,6 +1,4 @@
-﻿using Hl7.Fhir.Language.Debugging;
-using IgGenerator.DataObjectHandling;
-using IgGenerator.DataObjectHandling.Interfaces;
+﻿using IgGenerator.DataObjectHandling.Interfaces;
 
 namespace IgGenerator.IgHandling;
 
@@ -38,12 +36,12 @@ public class TocFileManager : ITocFileManager
         }
     }
     
-    public string GetDataObjectTocFile() => GetTocFile(_templateHandler.GetTemplate([TemplateType.TocFile, TemplateType.DataObject]), _sdRegistry);
+    public string GetDataObjectTocFile() => GetTocFile(_templateHandler.GetTemplate(TemplateType.TocFile | TemplateType.DataObject), _sdRegistry);
 
-    public string GetCodeSystemTocFile() => GetTocFile(_templateHandler.GetTemplate([TemplateType.TocFile, TemplateType.CodeSystem]), _codesystemRegistry);
+    public string GetCodeSystemTocFile() => GetTocFile(_templateHandler.GetTemplate(TemplateType.TocFile | TemplateType.CodeSystem), _codesystemRegistry);
 
-    public string GetExtensionTocFile() => GetTocFile(_templateHandler.GetTemplate([TemplateType.TocFile, TemplateType.Extension]), _extensionRegistry);
-    public string GetCapabilitySatementTocFile() => GetTocFile(_templateHandler.GetTemplate([TemplateType.TocFile, TemplateType.CapabilityStatement]), _capabilityStatementRegistry);
+    public string GetExtensionTocFile() => GetTocFile(_templateHandler.GetTemplate(TemplateType.TocFile | TemplateType.Extension), _extensionRegistry);
+    public string GetCapabilitySatementTocFile() => GetTocFile(_templateHandler.GetTemplate(TemplateType.TocFile | TemplateType.CapabilityStatement), _capabilityStatementRegistry);
 
     private string GetTocFile(IEnumerable<Template> template, IEnumerable<IVariable> registry)
     {

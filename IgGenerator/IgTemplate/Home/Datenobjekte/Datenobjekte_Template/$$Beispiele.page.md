@@ -4,19 +4,20 @@ expand: 4
 ---
 ### Beispiele
 
-<!-- ToDo: Iterieren über Beispiele, überlegen, wie wir Beschreibungen hinzufügen. SUSHI portiert Example-Descriptions in die ImplementationGuide-Ressource, die wird aber nur generiert, wenn man FSHOnly auf false setzt...!, Notfalls über Extensions in den Beispielen...?-->
+$$startExample
 
 <tabs>
     <tab title="Übersicht">      
-        {{render:patientinmusterfrau}}
+        {{render:$$Resource.id}}
     </tab>
     <tab title="XML">      
-        {{xml:patientinmusterfrau}}
+        {{xml:$$Resource.id}}
     </tab>
     <tab title="JSON">
-        {{json:patientinmusterfrau}}
+        {{json:$$Resource.id}}
     </tab>
     <tab title="Link">
-        {{link:patientinmusterfrau}}
+        {{link:$$Resource.id}}
     </tab>
 </tabs>
+$$endExample
