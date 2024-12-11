@@ -36,7 +36,7 @@ public partial class IgFileHandler :IIgFileHandler
 
         if (fullPath == null)
         {
-            _directory.CreateSubdirectory($"{_directory.FullName}/{dataObjectFolderName}");
+            fullPath = _directory.CreateSubdirectory($"{dataObjectFolderName}").FullName;
             _userInteractionHandler.Send($"There is no subfolder {dataObjectFolderName} at {_directory.FullName}. Folder created!");
         }
         
