@@ -3,7 +3,6 @@ topic: $$StructureDefinition.name-Beispiele
 expand: 4
 ---
 ### Beispiele
-
 $$startExample
 
 <tabs>

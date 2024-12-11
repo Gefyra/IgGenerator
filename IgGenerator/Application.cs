@@ -2,6 +2,7 @@
 using IgGenerator.IgHandling;
 using IgGenerator.IgHandling.Interfaces;
 using IgGenerator.ResourceHandling.Interfaces;
+using IgGenerator.Simplifier;
 
 namespace IgGenerator;
 
@@ -10,7 +11,8 @@ public class Application(
     IIgFileHandler igFileHandler,
     IResourceFileHandler resourceFileHandler,
     INamingManipulationHandler namingManipulationHandler,
-    IUserInteractionHandler userInteractionHandler)
+    IUserInteractionHandler userInteractionHandler,
+    ISimplifierConnector simplifierConnector)
     : IApplication
 {
     public void StartWorkflow()
@@ -19,6 +21,8 @@ public class Application(
         
         namingManipulationHandler.StartConsoleWorkflow();
 
+        simplifierConnector.LoadTemplate();
+        
         resourceFileHandler.StartConsoleWorkflow();
         IDictionary<string, IDictionary<string, string>> appliedDataObjects = igHandler.ApplyTemplateToAllSupportedProfiles();
         IDictionary<string, string> appliedCodeSystems = igHandler.ApplyTemplateToCodeSystems();

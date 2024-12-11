@@ -6,6 +6,7 @@ using IgGenerator.IgHandling;
 using IgGenerator.IgHandling.Interfaces;
 using IgGenerator.ResourceHandling;
 using IgGenerator.ResourceHandling.Interfaces;
+using IgGenerator.Simplifier;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace IgGenerator
@@ -32,6 +33,7 @@ namespace IgGenerator
                 .AddSingleton<IResourceHandler, ResourceHandler>()
                 .AddSingleton<INamingManipulationHandler, NamingManipulationHandler>()
                 .AddSingleton<ITocFileManager, TocFileManager>()
+                .AddSingleton<ISimplifierConnector, SimplifierConnector>()
                 .BuildServiceProvider();
             return serviceProvider;
         }
