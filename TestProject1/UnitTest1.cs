@@ -37,7 +37,7 @@ public class UnitTest1
         }
 
         //Act
-        IDictionary<string, string> files = templateHandler.ApplyProfileVariables(variables);
+        IDictionary<string, string> files = templateHandler.ApplyDataObjectVariables(variables);
 
         //Assert
         foreach (KeyValuePair<string, string> pair in _check)

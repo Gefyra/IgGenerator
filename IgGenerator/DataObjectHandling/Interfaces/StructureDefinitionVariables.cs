@@ -1,16 +1,18 @@
-﻿using Hl7.Fhir.Model;
+﻿using System.Text.RegularExpressions;
+using Hl7.Fhir.Model;
 using IgGenerator.Helpers;
 using IgGenerator.IgHandling;
 
 namespace IgGenerator.DataObjectHandling.Interfaces;
 
-public class StructureDefinitionVariables(StructureDefinition structureDefinition) : IVariable
+public partial class StructureDefinitionVariables(StructureDefinition structureDefinition) : IVariable
 {
     private INamingManipulationHandler? _namingManipulationHandler;
     private string Name => structureDefinition.Name;
     private string Url => structureDefinition.Url;
     private string Type => structureDefinition.Type;
     private string BaseUrl => structureDefinition.BaseDefinition;
+    public IEnumerable<Resource>? Examples {get; set;}
     private string Filename =>
         _namingManipulationHandler == null
             ? structureDefinition.Name
@@ -18,7 +20,8 @@ public class StructureDefinitionVariables(StructureDefinition structureDefinitio
 
     public string ApplyVariables(string content)
     {
-        return content
+        string newContent = ApplyExamples(content);
+        return newContent
             .Replace(IVariable.VARNAME_SD_NAME, Name)
             .Replace(IVariable.VARNAME_SD_URL, Url)
             .Replace(IVariable.VARNAME_SD_TYPE, Type)
@@ -26,6 +29,27 @@ public class StructureDefinitionVariables(StructureDefinition structureDefinitio
             .Replace(IVariable.VARNAME_FILENAME, Filename)
             .ReplaceVars();
     }
+    
+    private string ApplyExamples(string content)
+    {
+        Match match = ExampleRegex().Match(content);
+        if (match.Success && Examples != null)
+        {
+            string resultContent = ApplyVariables(content.Replace("\n" + match.Value, ""));
+
+            resultContent = Examples.Select(example => match.Value
+                    .Replace(IVariable.VARNAME_R_ID, example.Id)) //TODO Extension Information
+                .Aggregate(resultContent, (current, exampleContent) => current + exampleContent);
+
+            return resultContent
+                .Replace(IVariable.STARTEXAMPLE, "")
+                .Replace(IVariable.ENDEXAMPLE, "");
+        }
+        return content;
+    }
+    
+    [GeneratedRegex(@"\$\$startExample\s*(.*?)\s*\$\$endExample", RegexOptions.Singleline)]
+    private static partial Regex ExampleRegex();
 
     public void ApplyNamingManipulation(INamingManipulationHandler handler)
     {

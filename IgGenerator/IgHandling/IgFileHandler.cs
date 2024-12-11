@@ -1,7 +1,5 @@
 using System.Text.RegularExpressions;
-using IgGenerator.ConsoleHandling;
 using IgGenerator.ConsoleHandling.Interfaces;
-using IgGenerator.DataObjectHandling;
 using IgGenerator.DataObjectHandling.Interfaces;
 using IgGenerator.Helpers;
 using IgGenerator.IgHandling.Interfaces;
@@ -13,15 +11,15 @@ public partial class IgFileHandler :IIgFileHandler
     private readonly IUserInteractionHandler _userInteractionHandler;
     private readonly INamingManipulationHandler _namingManipulationHandler;
     private DirectoryInfo _directory;
-    private readonly ITemplateHandler _iTemplateHandler;
+    private readonly ITemplateHandler _templateHandler;
     private readonly ITocFileManager _tocFileManager;
     public string igFolderPath { get; private set; }
 
-    public IgFileHandler(IUserInteractionHandler userInteractionHandler, INamingManipulationHandler namingManipulationHandler,ITemplateHandler iTemplateHandler, ITocFileManager tocFileManager)
+    public IgFileHandler(IUserInteractionHandler userInteractionHandler, INamingManipulationHandler namingManipulationHandler,ITemplateHandler templateHandler, ITocFileManager tocFileManager)
     {
         _userInteractionHandler = userInteractionHandler;
         _namingManipulationHandler = namingManipulationHandler;
-        _iTemplateHandler = iTemplateHandler;
+        _templateHandler = templateHandler;
         _tocFileManager = tocFileManager;
     }
 
@@ -38,7 +36,7 @@ public partial class IgFileHandler :IIgFileHandler
 
         if (fullPath == null)
         {
-            _directory.CreateSubdirectory(dataObjectFolderName);
+            _directory.CreateSubdirectory($"{_directory.FullName}/{dataObjectFolderName}");
             _userInteractionHandler.Send($"There is no subfolder {dataObjectFolderName} at {_directory.FullName}. Folder created!");
         }
         
@@ -76,7 +74,9 @@ public partial class IgFileHandler :IIgFileHandler
 
     public void SaveCopyPasteFiles()
     {
-        SimpleAllFilesFromDirectory(_iTemplateHandler.CopyPasteFiles, igFolderPath);
+        string dataObjectFolderName = "Datenobjekte";
+        string? fullPath = _directory.FindFolderPath(dataObjectFolderName)?.Replace(dataObjectFolderName, "");
+        SimpleAllFilesFromDirectory(_templateHandler.GetTemplate(TemplateType.CopyPasteFile).ToDictionary(e=>e.FileName, e=>e.Content), fullPath);
     }
 
     public void SaveTocFiles()

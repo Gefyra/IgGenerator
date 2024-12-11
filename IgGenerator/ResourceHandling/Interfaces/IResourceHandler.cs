@@ -8,5 +8,6 @@ public interface IResourceHandler
     public StructureDefinition? GetStructureDefinition(string supportedProfile);
     public IEnumerable<CodeSystem> GetCodeSystems();
     public CapabilityStatement GetCapabilityStatement();
+    public IEnumerable<Resource> GetExamplesForProfile(string supportedProfile);
     public IEnumerable<(string name, string canonical)> GetUsedExtensions();
 }

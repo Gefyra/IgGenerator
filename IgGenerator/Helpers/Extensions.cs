@@ -1,4 +1,3 @@
-using System.Text.RegularExpressions;
 using IgGenerator.DataObjectHandling.Interfaces;
 
 namespace IgGenerator.Helpers;

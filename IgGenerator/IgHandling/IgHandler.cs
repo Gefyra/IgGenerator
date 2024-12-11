@@ -1,8 +1,6 @@
 using Hl7.Fhir.Model;
-using IgGenerator.DataObjectHandling;
 using IgGenerator.DataObjectHandling.Interfaces;
 using IgGenerator.IgHandling.Interfaces;
-using IgGenerator.ResourceHandling;
 using IgGenerator.ResourceHandling.Interfaces;
 
 namespace IgGenerator.IgHandling;
@@ -10,8 +8,6 @@ namespace IgGenerator.IgHandling;
 public class IgHandler(
     IResourceHandler resourceHandler,
     ITemplateHandler templateHandler,
-    IResourceFileHandler resourceFileHandler,
-    IIgFileHandler igFileHandler,
     ITocFileManager tocFileManager)
     : IIgHandler
 {
@@ -24,14 +20,19 @@ public class IgHandler(
 
         foreach (string supportedProfile in supportedProfiles)
         {
+            if (result.ContainsKey(supportedProfile))
+            {
+                continue;
+            }
             StructureDefinition? profileSd = resourceHandler.GetStructureDefinition(supportedProfile);
             if (profileSd == null)
             {
                 continue;
             }
             StructureDefinitionVariables variables = new(profileSd);
+            variables.Examples = resourceHandler.GetExamplesForProfile(supportedProfile);
             
-            IDictionary<string, string> chapter = templateHandler.ApplyProfileVariables(variables);
+            IDictionary<string, string> chapter = templateHandler.ApplyDataObjectVariables(variables);
             result.Add(supportedProfile, chapter);
 
             tocFileManager?.RegisterVariable(variables);

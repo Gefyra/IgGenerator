@@ -1,8 +1,6 @@
 using System.Text.RegularExpressions;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
-using Hl7.Fhir.Specification.Source;
-using IgGenerator.ConsoleHandling;
 using IgGenerator.ConsoleHandling.Interfaces;
 using IgGenerator.ResourceHandling.Interfaces;
 
@@ -13,6 +11,7 @@ public partial class ResourceHandler : IResourceHandler
     private readonly IResourceFileHandler _fileHandler;
     private readonly IUserInteractionHandler _userInteractionHandler;
     private readonly FhirJsonParser _parser = new();
+    private IEnumerable<Resource>? _resourcesCache;
 
     public ResourceHandler(IResourceFileHandler fileHandler, IUserInteractionHandler userInteractionHandler)
     {
@@ -64,6 +63,18 @@ public partial class ResourceHandler : IResourceHandler
         string name = $"{resourceName}-{elementDefinition.SliceName}"; //TODO Name bei Simplifier EP abfragen
         string? canonical = elementDefinition.Type.First(e => e.Code == "Extension").Profile.FirstOrDefault();
         return (name, canonical)!;
+    }
+
+    public IEnumerable<Resource> GetExamplesForProfile(string supportedProfile)
+    {
+        if (_resourcesCache == null)
+        {
+            _resourcesCache =
+                _fileHandler.AllJsonFiles?.Select(e => _parser.Parse<Resource>(File.ReadAllText(e.FullName))).ToArray() ?? [];
+            _userInteractionHandler.Send($"Found {_resourcesCache.Count(e => e.Meta != null && e.Meta.Profile.Any())} examples");
+        }
+
+        return _resourcesCache.Where(r=>r.Meta != null && r.Meta.Profile.Contains(supportedProfile));
     }
     
     public StructureDefinition? GetStructureDefinition(string supportedProfile)
