@@ -20,6 +20,10 @@ public class IgHandler(
 
         foreach (string supportedProfile in supportedProfiles)
         {
+            if (result.ContainsKey(supportedProfile))
+            {
+                continue;
+            }
             StructureDefinition? profileSd = resourceHandler.GetStructureDefinition(supportedProfile);
             if (profileSd == null)
             {
