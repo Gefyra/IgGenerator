@@ -37,7 +37,11 @@ public class ResourceFileHandler(IUserInteractionHandler userInteractionHandler)
             number = userInteractionHandler.GetNumber("Which one? (Type number, default 0):", 0);
         }
 
-        CapabilityStatement = _parser.Parse<CapabilityStatement>(File.ReadAllText(csFiles.ElementAt(number).FullName));
+        if (csFiles.Any())
+        {
+            CapabilityStatement =
+                _parser.Parse<CapabilityStatement>(File.ReadAllText(csFiles.ElementAt(number).FullName));
+        }
     }
 
     public CachedResolver GetCachedResolver() =>

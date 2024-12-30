@@ -21,9 +21,17 @@ public partial class ResourceHandler : IResourceHandler
 
     public IEnumerable<string>? ExtractSupportedProfiles()
     {
-        return _fileHandler.CapabilityStatement?.Rest
-            .Where(e => e.Mode == CapabilityStatement.RestfulCapabilityMode.Server)
-            .SelectMany(e => e.Resource.SelectMany(r => r.SupportedProfile));
+        if (_fileHandler.CapabilityStatement is not null)
+        {
+           return _fileHandler.CapabilityStatement?.Rest
+                .Where(e => e.Mode == CapabilityStatement.RestfulCapabilityMode.Server)
+                .SelectMany(e => e.Resource.SelectMany(r => r.SupportedProfile));
+        }
+        else
+        {
+            FileInfo[]? sds = _fileHandler.AllJsonFiles?.Where(e => e.Name.StartsWith($"StructureDefinition-")).ToArray();
+            return sds?.Select(e=>_parser.Parse<StructureDefinition>(File.ReadAllText(e.FullName)).Url) ?? Array.Empty<string>();
+        }
     }
 
     public IEnumerable<CodeSystem> GetCodeSystems()

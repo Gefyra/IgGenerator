@@ -15,8 +15,8 @@ public partial class StructureDefinitionVariables(StructureDefinition structureD
     public IEnumerable<Resource>? Examples {get; set;}
     private string Filename =>
         _namingManipulationHandler == null
-            ? structureDefinition.Name
-            : _namingManipulationHandler.FilterPartFromFilename(structureDefinition.Name);
+            ? LastPartOfCanonical().Match(structureDefinition.Url).Value
+            : _namingManipulationHandler.FilterPartFromFilename(LastPartOfCanonical().Match(structureDefinition.Url).Value);
 
     public string ApplyVariables(string content)
     {
@@ -50,6 +50,9 @@ public partial class StructureDefinitionVariables(StructureDefinition structureD
     
     [GeneratedRegex(@"\$\$startExample\s*(.*?)\s*\$\$endExample", RegexOptions.Singleline)]
     private static partial Regex ExampleRegex();
+    
+    [GeneratedRegex("[^/]+$")]
+    private static partial Regex LastPartOfCanonical();
 
     public void ApplyNamingManipulation(INamingManipulationHandler handler)
     {

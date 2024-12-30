@@ -4,16 +4,16 @@ using IgGenerator.IgHandling;
 
 namespace IgGenerator.DataObjectHandling.Interfaces;
 
-public class CapabilityStatementVariables(CapabilityStatement capabilityStatement) : IVariable
+public class CapabilityStatementVariables(CapabilityStatement? capabilityStatement) : IVariable
 {
     private INamingManipulationHandler? _namingManipulationHandler;
-    private string Name => capabilityStatement.Name;
-    private string Url => capabilityStatement.Url;
+    private string Name => capabilityStatement?.Name ?? string.Empty;
+    private string Url => capabilityStatement?.Url ?? string.Empty;
     private string Filename
     {
         get
         {
-            string filename = $"Akteur-{capabilityStatement.Name}";
+            string filename = $"Akteur-{capabilityStatement?.Name ?? string.Empty}";
             return _namingManipulationHandler == null
                 ? filename
                 : _namingManipulationHandler.FilterPartFromFilename(filename);

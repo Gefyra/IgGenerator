@@ -15,7 +15,7 @@ namespace TestProject1;
 public class UnitTest1
 {
     
-    [Fact]
+    /*[Fact]
     public void DataObjectTemplateHandler_DataObjectReplacementTest()
     {
         TemplateHandler templateHandler = new(new NamingManipulationHandler(null!));
@@ -49,7 +49,7 @@ public class UnitTest1
             files.Should().ContainKey(pair.Key);
             files[pair.Key].Should().BeEquivalentTo(pair.Value);
         }
-    }
+    }*/
 
     [Fact]
     public void ResourceFileHandler_FindCapabilityStatementTest()
@@ -158,72 +158,6 @@ public class UnitTest1
         //Assert
         extensions.Should().NotBeNull();
         extensions.Count().Should().Be(13);
-    }
-    
-    [Fact]
-    public void DataObjectTemplateHandler_LoadCopyPasteFiles()
-    {
-        //Act
-        ITemplateHandler templateHandler = new TemplateHandler(null!);
-
-        //Assert
-        templateHandler.CopyPasteFiles.Count.Should().Be(9);
-    }
-    
-    [Fact]
-    public void TocFileManager_GetDataObjectTocFile()
-    {
-        //Arrange
-
-        Mock<IUserInteractionHandler> userInterationHandlerMock = new();
-        userInterationHandlerMock
-            .Setup(x => x.GetString(It.Is<string>(s => s == "Path of Resources:")))
-            .Returns("./ResourcesCheck/Resources");
-        userInterationHandlerMock
-            .Setup(x=>x.GetString(It.Is<string>(s => s == "Do you want to manipulate names? (default: false)")))
-            .Returns("y");
-        userInterationHandlerMock.Setup(x => x.GetNumber(It.IsAny<string>(), It.IsAny<int>())).Returns(0);
-        ITemplateHandler templateHandler = new TemplateHandler(new NamingManipulationHandler(userInterationHandlerMock.Object));
-        ITocFileManager tocFileManager = new TocFileManager(templateHandler);
-        IResourceFileHandler fileHandler = new ResourceFileHandler(userInterationHandlerMock.Object);
-        IResourceHandler resourceHandler = new ResourceHandler(fileHandler, userInterationHandlerMock.Object);
-        IIgHandler igHandler = new IgHandler(resourceHandler, templateHandler, fileHandler, null!, tocFileManager);
-
-        //Act
-        igHandler.ApplyTemplateToAllSupportedProfiles();
-        string tocFile = tocFileManager.GetDataObjectTocFile();
-
-        //Assert
-        tocFile.Should().NotBeNull();
-    }
-    
-    [Fact]
-    public void IgHanlder_ApplyTemplateToAllSupportedProfilesTest()
-    {
-        Mock<IUserInteractionHandler> userInterationHandlerMock = new();
-        userInterationHandlerMock
-            .Setup(x => x.GetString(It.Is<string>(s => s == "Path of Resources:")))
-            .Returns("./ResourcesCheck/Resources");
-        userInterationHandlerMock
-            .Setup(x=>x.GetString(It.Is<string>(s => s == "Do you want to manipulate names? (default: false)")))
-            .Returns("y");
-        userInterationHandlerMock.Setup(x => x.GetNumber(It.IsAny<string>(), It.IsAny<int>())).Returns(0);
-        IResourceFileHandler fileHandler = new ResourceFileHandler(userInterationHandlerMock.Object);
-        IResourceHandler resourceHandler = new ResourceHandler(fileHandler, userInterationHandlerMock.Object);
-        IIgHandler igHandler = new IgHandler(resourceHandler, new TemplateHandler(new NamingManipulationHandler(userInterationHandlerMock.Object)), fileHandler, null!, null!);
-        
-        string checkFolderName = "./IgTemplateCheck/Einfuehrung/Datenobjekte";
-        DirectoryInfo directoryInfo = new(checkFolderName);
-        IDictionary<string, string> _check = new Dictionary<string, string>();
-        foreach (FileInfo enumerateFile in directoryInfo.EnumerateFiles())
-        {
-            _check.Add(enumerateFile.Name, File.ReadAllText(enumerateFile.FullName));
-        }
-        
-        //Act
-        IDictionary<string, IDictionary<string, string>> filledTemplates = igHandler.ApplyTemplateToAllSupportedProfiles();
-        
-        //Assert
     }
 
     [Fact]

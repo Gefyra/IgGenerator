@@ -59,7 +59,7 @@ public class IgHandler(
     
     public IDictionary<string, string> ApplyTemplateToCapabilityStatement()
     {
-        CapabilityStatement capabilityStatement = resourceHandler.GetCapabilityStatement();
+        CapabilityStatement? capabilityStatement = resourceHandler.GetCapabilityStatement();
 
         IDictionary<string, string> result = new Dictionary<string, string>();
 
