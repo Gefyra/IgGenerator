@@ -2,5 +2,5 @@
   filename: Index.page.md
 $$startTocObject
 - name: $$StructureDefinition.name
-  filename: $$Filename
+  filename: $$Filename.page.md
 $$endTocObject

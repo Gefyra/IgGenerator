@@ -42,9 +42,25 @@ public partial class IgFileHandler :IIgFileHandler
         
         foreach (KeyValuePair<string, IDictionary<string, string>> dataObject in extractedDataObjects)
         {
+            RemoveEmptyExamples(dataObject);
+
             string match = _namingManipulationHandler.FilterPartFromFilename(LastPartOfCanonical().Match(dataObject.Key).Value);
             string folder = $"{fullPath}/Datenobjekt_{match}";
             SimpleAllFilesFromDirectory(dataObject.Value, folder);
+        }
+    }
+
+    private static void RemoveEmptyExamples(KeyValuePair<string, IDictionary<string, string>> dataObject)
+    {
+        try
+        {
+            KeyValuePair<string, string> emptyExample = dataObject.Value.First(e => e.Key.Contains("Beispiele")
+                && e.Value.Split('\n').Length < 9);
+            dataObject.Value.Remove(emptyExample);
+        }
+        catch (InvalidOperationException)
+        {
+            return;
         }
     }
 
