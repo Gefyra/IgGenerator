@@ -30,7 +30,10 @@ public partial class ResourceHandler : IResourceHandler
         else
         {
             FileInfo[]? sds = _fileHandler.AllJsonFiles?.Where(e => e.Name.StartsWith($"StructureDefinition-")).ToArray();
-            return sds?.Select(e=>_parser.Parse<StructureDefinition>(File.ReadAllText(e.FullName)).Url) ?? Array.Empty<string>();
+            return sds?
+                .Select(e=> _parser.Parse<StructureDefinition>(File.ReadAllText(e.FullName)))
+                .Where(e=>e.Type != "Extension")
+                .Select(e=>e.Url)?? Array.Empty<string>();
         }
     }
 
