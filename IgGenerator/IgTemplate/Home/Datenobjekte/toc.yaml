@@ -3,7 +3,7 @@
 - name: CapabilityStatements
   filename: CapabilityStatements
 $$startTocObject
-- name: $$StructureDefinition.name ($$StructureDefinition.type).
+- name: $$StructureDefinition.name ($$StructureDefinition.type)
   filename: Datenobjekt_$$Filename
 $$endTocObject
 - name: Terminologien
