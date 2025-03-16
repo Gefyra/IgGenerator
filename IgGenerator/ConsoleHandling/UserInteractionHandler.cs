@@ -5,44 +5,76 @@ using IgGenerator.ConsoleHandling.Interfaces;
 
 namespace IgGenerator.ConsoleHandling;
 
+/// <summary>
+/// Handles user interaction through the console with caching support.
+/// </summary>
 public class UserInteractionHandler : IUserInteractionHandler
 {
-    private DictionaryXmlable<string, string> _cache = null!;
-    private bool _useCache = true;
+    private readonly IUserInputCacheService _cacheService;
 
-
-    public UserInteractionHandler()
+    public UserInteractionHandler(IUserInputCacheService cacheService)
     {
-        RestoreCache();
+        _cacheService = cacheService ?? throw new ArgumentNullException(nameof(cacheService));
     }
 
     public int GetNumber(string question, int defaultAnswer)
     {
-        if (_useCache && _cache.TryGetValue(question, out string? value)) return int.Parse(value);
+        if (string.IsNullOrEmpty(question))
+            throw new ArgumentNullException(nameof(question));
+
+        if (_cacheService.TryGetCachedValue(question, out string? value))
+        {
+            return int.Parse(value);
+        }
+
         Console.WriteLine(question);
-        int number = int.Parse(Console.ReadLine() ?? $"{defaultAnswer}");
-        AddToCache(question, number.ToString());
-        SaveCache();
-        return number;
+        string? input = Console.ReadLine();
+
+        int result;
+        if (string.IsNullOrEmpty(input))
+        {
+            result = defaultAnswer;
+        }
+        else if (!int.TryParse(input, out result))
+        {
+            Console.WriteLine($"Invalid input. Using default value: {defaultAnswer}");
+            result = defaultAnswer;
+        }
+
+        _cacheService.AddOrUpdateCache(question, result.ToString());
+        return result;
     }
 
     public string GetString(string question)
     {
-        if (_useCache && _cache.TryGetValue(question, out string? value)) return value;
+        if (string.IsNullOrEmpty(question))
+            throw new ArgumentNullException(nameof(question));
+
+        if (_cacheService.TryGetCachedValue(question, out string? value))
+        {
+            return value;
+        }
+
         Console.WriteLine(question);
-        string? stringValue;
+        string? input;
         do
         {
-            stringValue = Console.ReadLine();
-        } while (string.IsNullOrEmpty(stringValue));
+            input = Console.ReadLine()?.Trim();
+            if (string.IsNullOrEmpty(input))
+            {
+                Console.WriteLine("Please enter a non-empty value:");
+            }
+        } while (string.IsNullOrEmpty(input));
 
-        AddToCache(question, stringValue);
-        SaveCache();
-        return stringValue;
+        _cacheService.AddOrUpdateCache(question, input);
+        return input;
     }
 
     public void Send(string message)
     {
+        if (string.IsNullOrEmpty(message))
+            throw new ArgumentNullException(nameof(message));
+
         Console.WriteLine(message);
     }
 
@@ -54,73 +86,53 @@ public class UserInteractionHandler : IUserInteractionHandler
 
     public bool AskYesNoQuestion(string question, bool defaultAnswer)
     {
-        if (question != "Use Cache?" && _useCache && _cache.TryGetValue(question, out string? value))
+        if (string.IsNullOrEmpty(question))
+            throw new ArgumentNullException(nameof(question));
+
+        if (question != "Use Cache?" && _cacheService.TryGetCachedValue(question, out string? value))
+        {
             return bool.Parse(value);
+        }
+
         Console.WriteLine(question);
         string? answer;
+        bool result;
+
         do
         {
-            answer = Console.ReadLine();
-            if (answer?.ToLower() == "y" || answer?.ToLower() == "t" || answer?.ToLower() == "yes")
+            answer = Console.ReadLine()?.Trim().ToLower();
+            
+            result = answer switch
             {
-                answer = "true";
-            }
-
-            if (answer?.ToLower() == "n" || answer?.ToLower() == "f" || answer?.ToLower() == "no" )
-            {
-                answer = "false";
-            }
+                "y" or "yes" or "t" => true,
+                "n" or "no" or "f" => false,
+                "" => defaultAnswer,
+                _ => !bool.TryParse(answer, out result) ? defaultAnswer : result
+            };
 
             if (string.IsNullOrEmpty(answer))
             {
-                answer = defaultAnswer ? "true" : "false";
+                Console.WriteLine($"Using default value: {defaultAnswer}");
             }
-        } while (string.IsNullOrEmpty(answer) || !bool.TryParse(answer, out _));
+        } while (answer != null && !IsValidBooleanInput(answer) && !string.IsNullOrEmpty(answer));
 
-        AddToCache(question, answer!);
-        SaveCache();
-        return bool.Parse(answer!);
-    }
-
-    private void AddToCache(string question, string answer)
-    {
-        if (_cache.ContainsKey(question))
-        {
-            _cache[question] = answer;
-        }
-        else
-        {
-            _cache.Add(question, answer!);
-        }
+        _cacheService.AddOrUpdateCache(question, result.ToString());
+        return result;
     }
 
     public void AskCacheUsage()
     {
-        Send(_cache.Aggregate(string.Empty, (current, kvp) => current + $"{kvp.Key} => {kvp.Value}{Environment.NewLine}"));
-        _useCache = AskYesNoQuestion("Use Cache?", true);
+        _cacheService.ConfigureCache(AskYesNoQuestion);
     }
 
-    public void SaveCache()
+    private static bool IsValidBooleanInput(string input)
     {
-        XmlSerializer serializer = new(typeof(DictionaryXmlable<string, string>));
-        TextWriter textWriter = new StreamWriter(@"./cache.xml");
-        serializer.Serialize(textWriter, _cache);
-        textWriter.Close();
-    }
-
-    private void RestoreCache()
-    {
-        if (File.Exists("./cache.xml"))
+        return input.ToLower() switch
         {
-            XmlSerializer serializer = new(typeof(DictionaryXmlable<string, string>));
-            TextReader textReader = new StreamReader(@"./cache.xml");
-            _cache = (DictionaryXmlable<string, string>)serializer.Deserialize(textReader)!;
-            textReader.Close();
-        }
-        else
-        {
-            _cache = new DictionaryXmlable<string, string>();
-        }
+            "y" or "yes" or "t" or "true" or
+            "n" or "no" or "f" or "false" => true,
+            _ => bool.TryParse(input, out _)
+        };
     }
 }
 

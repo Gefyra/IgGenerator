@@ -1,5 +1,6 @@
 ﻿using IgGenerator.ConsoleHandling;
 using IgGenerator.ConsoleHandling.Interfaces;
+using IgGenerator.ConsoleHandling.Services;
 using IgGenerator.DataObjectHandling;
 using IgGenerator.DataObjectHandling.Interfaces;
 using IgGenerator.IgHandling;
@@ -24,6 +25,7 @@ namespace IgGenerator
         {
             ServiceProvider serviceProvider = new ServiceCollection()
                 .AddSingleton<IApplication, Application>()
+                .AddSingleton<IUserInputCacheService, UserInputCacheService>()
                 .AddSingleton<IUserInteractionHandler, UserInteractionHandler>()
                 .AddSingleton<IIgFileHandler, IgFileHandler>()
                 .AddSingleton<IIgHandler, IgHandling.IgHandler>()
