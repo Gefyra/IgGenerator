@@ -90,7 +90,7 @@ public class TemplateLoadingService
 
     private Template LoadTocTemplate(string path, TemplateType templateType)
     {
-        DirectoryInfo directory = new DirectoryInfo(path);
+        DirectoryInfo directory = new(path);
         FileInfo tocTemplate = directory.EnumerateFiles(YAML_PATTERN, SearchOption.TopDirectoryOnly).First();
         string content = File.ReadAllText(tocTemplate.FullName);
         
@@ -102,7 +102,7 @@ public class TemplateLoadingService
     private IEnumerable<Template> LoadCopyPasteFiles()
     {
         Console.WriteLine("Loading copy-paste files...");
-        DirectoryInfo directory = new DirectoryInfo(DATA_OBJECT_FOLDER_PATH);
+        DirectoryInfo directory = new(DATA_OBJECT_FOLDER_PATH);
         IEnumerable<FileInfo> markdownFiles = directory.EnumerateFiles(MARKDOWN_PATTERN, SearchOption.AllDirectories)
             .Where(file => !file.Name.Contains(TEMPLATE_MARKER));
 
@@ -120,7 +120,7 @@ public class TemplateLoadingService
     private IEnumerable<Template> LoadSingleDataObjectTemplates()
     {
         Console.WriteLine("Loading data object templates...");
-        DirectoryInfo directory = new DirectoryInfo(SINGLE_DATA_OBJECT_TEMPLATE_FOLDER);
+        DirectoryInfo directory = new(SINGLE_DATA_OBJECT_TEMPLATE_FOLDER);
         
         return directory.EnumerateFiles().Select(file =>
         {
@@ -134,7 +134,7 @@ public class TemplateLoadingService
     private Template LoadSingleTemplateFile(TemplateType templateType, string folderPath)
     {
         Console.WriteLine($"Loading template for {templateType}...");
-        DirectoryInfo directory = new DirectoryInfo(folderPath);
+        DirectoryInfo directory = new(folderPath);
         FileInfo? templateFile = directory.EnumerateFiles()
             .FirstOrDefault(file => file.Name.Contains(TEMPLATE_MARKER));
 

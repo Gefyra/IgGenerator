@@ -16,7 +16,7 @@ public class ResourceFileHandler : IResourceFileHandler
     private string? _folderPath;
     private CachedResolver? _resolver;
 
-    public CapabilityStatement? CapabilityStatement { get; private set; }
+    public List<CapabilityStatement> CapabilityStatements { get; private set; } = new();
     public IEnumerable<FileInfo>? AllJsonFiles { get; private set; }
 
     public ResourceFileHandler(IUserInteractionHandler userInteractionHandler)
@@ -35,7 +35,7 @@ public class ResourceFileHandler : IResourceFileHandler
         }
 
         LoadJsonFiles();
-        FindCapabilityStatement();
+        FindCapabilityStatements();
     }
 
     private void LoadJsonFiles()
@@ -61,7 +61,7 @@ public class ResourceFileHandler : IResourceFileHandler
         }
     }
 
-    private void FindCapabilityStatement()
+    private void FindCapabilityStatements()
     {
         if (AllJsonFiles == null) return;
 
@@ -75,16 +75,27 @@ public class ResourceFileHandler : IResourceFileHandler
             return;
         }
 
-        var selectedFile = SelectCapabilityStatementFile(capabilityStatementFiles);
-        ParseCapabilityStatement(selectedFile);
+        var selectedFiles = SelectCapabilityStatementFiles(capabilityStatementFiles);
+        
+        CapabilityStatements.Clear();
+        foreach (var file in selectedFiles)
+        {
+            var capabilityStatement = ParseCapabilityStatement(file);
+            if (capabilityStatement != null)
+            {
+                CapabilityStatements.Add(capabilityStatement);
+            }
+        }
+        
+        Console.WriteLine($"Loaded {CapabilityStatements.Count} capability statements.");
     }
 
-    private FileInfo SelectCapabilityStatementFile(FileInfo[] files)
+    private IEnumerable<FileInfo> SelectCapabilityStatementFiles(FileInfo[] files)
     {
         if (files.Length == 1) 
         {
             Console.WriteLine($"Using CapabilityStatement: {files[0].Name}");
-            return files[0];
+            return new[] { files[0] };
         }
 
         Console.WriteLine("Multiple CapabilityStatement files found:");
@@ -93,24 +104,52 @@ public class ResourceFileHandler : IResourceFileHandler
             Console.WriteLine($"{i}: {files[i].Name}");
         }
 
-        var selectedIndex = _userInteractionHandler.GetNumber(
-            "Which one? (Type number, default 0):", 0);
-
-        Console.WriteLine($"Selected CapabilityStatement: {files[selectedIndex].Name}");
-        return files[selectedIndex];
+        var input = _userInteractionHandler.GetString(
+            "Which ones? (Type numbers separated by commas, or 'all' for all, default 0):");
+        
+        if (string.IsNullOrWhiteSpace(input))
+        {
+            Console.WriteLine($"Selected CapabilityStatement: {files[0].Name}");
+            return new[] { files[0] };
+        }
+        
+        if (input.Trim().Equals("all", StringComparison.OrdinalIgnoreCase))
+        {
+            Console.WriteLine("Selected all CapabilityStatements");
+            return files;
+        }
+        
+        var selectedIndices = input.Split(',')
+            .Select(s => s.Trim())
+            .Where(s => !string.IsNullOrWhiteSpace(s))
+            .Select(s => int.TryParse(s, out var index) ? index : -1)
+            .Where(index => index >= 0 && index < files.Length)
+            .Distinct()
+            .ToArray();
+        
+        if (!selectedIndices.Any())
+        {
+            Console.WriteLine($"No valid indices provided. Using default: {files[0].Name}");
+            return new[] { files[0] };
+        }
+        
+        var selectedFiles = selectedIndices.Select(i => files[i]).ToArray();
+        Console.WriteLine($"Selected {selectedFiles.Length} CapabilityStatements: {string.Join(", ", selectedFiles.Select(f => f.Name))}");
+        return selectedFiles;
     }
 
-    private void ParseCapabilityStatement(FileInfo file)
+    private CapabilityStatement? ParseCapabilityStatement(FileInfo file)
     {
         try
         {
-            CapabilityStatement = _parser.Parse<CapabilityStatement>(File.ReadAllText(file.FullName));
+            var capabilityStatement = _parser.Parse<CapabilityStatement>(File.ReadAllText(file.FullName));
             Console.WriteLine($"Successfully loaded CapabilityStatement from {file.Name}");
+            return capabilityStatement;
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Error parsing CapabilityStatement from {file.Name}: {ex.Message}");
-            CapabilityStatement = null;
+            return null;
         }
     }
 

@@ -5,7 +5,7 @@ namespace IgGenerator.ResourceHandling.Interfaces;
 
 public interface IResourceFileHandler
 {
-    public CapabilityStatement? CapabilityStatement { get; }
+    public List<CapabilityStatement> CapabilityStatements { get; }
     public IEnumerable<FileInfo>? AllJsonFiles { get; }
     public void StartConsoleWorkflow();
     public CachedResolver GetCachedResolver();

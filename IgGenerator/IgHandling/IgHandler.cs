@@ -71,7 +71,7 @@ public class IgHandler : IIgHandler
         StructureDefinition profileSd, 
         string supportedProfile)
     {
-        StructureDefinitionVariables variables = new StructureDefinitionVariables(profileSd)
+        StructureDefinitionVariables variables = new(profileSd)
         {
             Examples = _resourceHandler.GetExamplesForProfile(supportedProfile)
         };
@@ -103,7 +103,7 @@ public class IgHandler : IIgHandler
     private void ProcessCodeSystem(CodeSystem codeSystem, IDictionary<string, string> result)
     {
         Console.WriteLine($"Processing CodeSystem: {codeSystem.Name}");
-        CodeSystemVariables variables = new CodeSystemVariables(codeSystem);
+        CodeSystemVariables variables = new(codeSystem);
         result.Add(_templateHandler.ApplyVariables(variables));
         _tocFileManager.RegisterVariable(variables);
         Console.WriteLine($"Successfully processed CodeSystem: {codeSystem.Name}");
@@ -111,24 +111,27 @@ public class IgHandler : IIgHandler
     
     public IDictionary<string, string> ApplyTemplateToCapabilityStatement()
     {
-        CapabilityStatement? capabilityStatement = _resourceHandler.GetCapabilityStatement();
         IDictionary<string, string> result = new Dictionary<string, string>();
 
-        if (capabilityStatement == null)
+        // Verarbeite alle Capability Statements
+        foreach (var capabilityStatement in _resourceHandler.GetCapabilityStatements())
         {
-            Console.WriteLine("No CapabilityStatement found");
-            return result;
-        }
+            if (capabilityStatement == null)
+            {
+                Console.WriteLine("No capability statement found.");
+                continue;
+            }
 
-        try
-        {
-            Console.WriteLine("Processing CapabilityStatement...");
-            ProcessCapabilityStatement(capabilityStatement, result);
-            Console.WriteLine("Successfully processed CapabilityStatement");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error processing CapabilityStatement: {ex.Message}");
+            try
+            {
+                Console.WriteLine($"Processing CapabilityStatement: {capabilityStatement.Name ?? capabilityStatement.Id ?? "unnamed"}");
+                ProcessCapabilityStatement(capabilityStatement, result);
+                Console.WriteLine($"Successfully processed CapabilityStatement: {capabilityStatement.Name ?? capabilityStatement.Id ?? "unnamed"}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error processing CapabilityStatement: {ex.Message}");
+            }
         }
 
         return result;
@@ -136,7 +139,8 @@ public class IgHandler : IIgHandler
 
     private void ProcessCapabilityStatement(CapabilityStatement capabilityStatement, IDictionary<string, string> result)
     {
-        CapabilityStatementVariables variables = new CapabilityStatementVariables(capabilityStatement);
+        CapabilityStatementVariables variables = new(capabilityStatement);
+        
         result.Add(_templateHandler.ApplyVariables(variables));
         _tocFileManager.RegisterVariable(variables);
     }
@@ -166,7 +170,7 @@ public class IgHandler : IIgHandler
     private void ProcessExtension((string name, string canonical) extension, IDictionary<string, string> result)
     {
         Console.WriteLine($"Processing Extension: {extension.name}");
-        ExtensionVariables variables = new ExtensionVariables(extension.name, extension.canonical);
+        ExtensionVariables variables = new(extension.name, extension.canonical);
         result.Add(_templateHandler.ApplyVariables(variables));
         _tocFileManager.RegisterVariable(variables);
         Console.WriteLine($"Successfully processed Extension: {extension.name}");

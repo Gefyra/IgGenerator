@@ -27,20 +27,21 @@ public partial class ResourceHandler : IResourceHandler
 
     public IEnumerable<string> ExtractSupportedProfiles()
     {
-        if (_fileHandler.CapabilityStatement != null)
+        if (_fileHandler.CapabilityStatements.Any())
         {
-            return ExtractProfilesFromCapabilityStatement();
+            return ExtractProfilesFromCapabilityStatements();
         }
         
         return ExtractProfilesFromStructureDefinitions();
     }
 
-    private IEnumerable<string> ExtractProfilesFromCapabilityStatement()
+    private IEnumerable<string> ExtractProfilesFromCapabilityStatements()
     {
-        return _fileHandler.CapabilityStatement?.Rest
-            .Where(e => e.Mode == CapabilityStatement.RestfulCapabilityMode.Server)
-            .SelectMany(e => e.Resource.SelectMany(r => r.SupportedProfile))
-            ?? Enumerable.Empty<string>();
+        return _fileHandler.CapabilityStatements
+            .SelectMany(cs => cs.Rest
+                .Where(e => e.Mode == CapabilityStatement.RestfulCapabilityMode.Server)
+                .SelectMany(e => e.Resource.SelectMany(r => r.SupportedProfile)))
+            .Distinct();
     }
 
     private IEnumerable<string> ExtractProfilesFromStructureDefinitions()
@@ -67,8 +68,8 @@ public partial class ResourceHandler : IResourceHandler
             .Select(cs => cs!)
             ?? Enumerable.Empty<CodeSystem>();
     }
-
-    public CapabilityStatement? GetCapabilityStatement() => _fileHandler.CapabilityStatement;
+    
+    public IEnumerable<CapabilityStatement> GetCapabilityStatements() => _fileHandler.CapabilityStatements;
 
     public IEnumerable<(string name, string canonical)> GetUsedExtensions()
     {
