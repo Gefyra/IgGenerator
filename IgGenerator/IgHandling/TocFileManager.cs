@@ -4,47 +4,63 @@ namespace IgGenerator.IgHandling;
 
 public class TocFileManager : ITocFileManager
 {
-
-    private readonly List<IVariable> _sdRegistry;
-    private readonly List<IVariable> _codesystemRegistry;
-    private readonly List<IVariable> _extensionRegistry;
-    private readonly List<IVariable> _capabilityStatementRegistry;
+    private const string MISSING_TEMPLATE_ERROR = "No template found for type: {0}";
+    
+    private readonly Dictionary<Type, List<IVariable>> _registries;
     private readonly ITemplateHandler _templateHandler;
 
     public TocFileManager(ITemplateHandler templateHandler)
     {
-        _templateHandler = templateHandler;
+        _templateHandler = templateHandler ?? throw new ArgumentNullException(nameof(templateHandler));
         
-        _sdRegistry = [];
-        _codesystemRegistry = [];
-        _extensionRegistry = [];
-        _capabilityStatementRegistry = [];
+        _registries = new Dictionary<Type, List<IVariable>>
+        {
+            { typeof(StructureDefinitionVariables), new List<IVariable>() },
+            { typeof(CodeSystemVariables), new List<IVariable>() },
+            { typeof(ExtensionVariables), new List<IVariable>() },
+            { typeof(CapabilityStatementVariables), new List<IVariable>() }
+        };
     }
 
     public void RegisterVariable(IVariable variable)
     {
-        switch (variable)
+        Type variableType = variable.GetType();
+        if (_registries.ContainsKey(variableType))
         {
-            case CodeSystemVariables: _codesystemRegistry.Add(variable);
-                break;
-            case ExtensionVariables:_extensionRegistry.Add(variable);
-                break;
-            case StructureDefinitionVariables: _sdRegistry.Add(variable);
-                break;
-            case CapabilityStatementVariables: _capabilityStatementRegistry.Add(variable);
-                break;
+            Console.WriteLine($"Registering {variableType.Name}");
+            _registries[variableType].Add(variable);
+        }
+        else
+        {
+            Console.WriteLine($"Warning: Unsupported variable type {variableType.Name}");
         }
     }
     
-    public string GetDataObjectTocFile() => GetTocFile(_templateHandler.GetTemplate(TemplateType.TocFile | TemplateType.DataObject), _sdRegistry);
+    public string GetDataObjectTocFile() => GenerateTocFile(
+        TemplateType.TocFile | TemplateType.DataObject,
+        typeof(StructureDefinitionVariables));
 
-    public string GetCodeSystemTocFile() => GetTocFile(_templateHandler.GetTemplate(TemplateType.TocFile | TemplateType.CodeSystem), _codesystemRegistry);
+    public string GetCodeSystemTocFile() => GenerateTocFile(
+        TemplateType.TocFile | TemplateType.CodeSystem,
+        typeof(CodeSystemVariables));
 
-    public string GetExtensionTocFile() => GetTocFile(_templateHandler.GetTemplate(TemplateType.TocFile | TemplateType.Extension), _extensionRegistry);
-    public string GetCapabilitySatementTocFile() => GetTocFile(_templateHandler.GetTemplate(TemplateType.TocFile | TemplateType.CapabilityStatement), _capabilityStatementRegistry);
+    public string GetExtensionTocFile() => GenerateTocFile(
+        TemplateType.TocFile | TemplateType.Extension,
+        typeof(ExtensionVariables));
 
-    private string GetTocFile(IEnumerable<Template> template, IEnumerable<IVariable> registry)
+    public string GetCapabilitySatementTocFile() => GenerateTocFile(
+        TemplateType.TocFile | TemplateType.CapabilityStatement,
+        typeof(CapabilityStatementVariables));
+
+    private string GenerateTocFile(TemplateType templateType, Type registryType)
     {
-        return _templateHandler.ApplyTocList(template.First().Content, registry);
+        IEnumerable<Template> templates = _templateHandler.GetTemplate(templateType);
+        Template template = templates.FirstOrDefault() 
+            ?? throw new InvalidOperationException(string.Format(MISSING_TEMPLATE_ERROR, templateType));
+
+        List<IVariable> registry = _registries[registryType];
+        Console.WriteLine($"Generating TOC file for {registryType.Name} with {registry.Count} entries");
+        
+        return _templateHandler.ApplyTocList(template.Content, registry);
     }
 }

@@ -6,47 +6,59 @@ using IgGenerator.IgHandling.Interfaces;
 
 namespace IgGenerator.IgHandling;
 
-public partial class IgFileHandler :IIgFileHandler
+public partial class IgFileHandler : IIgFileHandler
 {
+    private static class FolderNames
+    {
+        public const string DataObjects = "Datenobjekte";
+        public const string Terminology = "Terminologien";
+        public const string Extensions = "Extensions";
+        public const string CapabilityStatements = "CapabilityStatements";
+    }
+
     private readonly IUserInteractionHandler _userInteractionHandler;
     private readonly INamingManipulationHandler _namingManipulationHandler;
-    private DirectoryInfo _directory;
     private readonly ITemplateHandler _templateHandler;
     private readonly ITocFileManager _tocFileManager;
-    public string igFolderPath { get; private set; }
+    private DirectoryInfo _directory;
+    public string IgFolderPath { get; private set; }
 
-    public IgFileHandler(IUserInteractionHandler userInteractionHandler, INamingManipulationHandler namingManipulationHandler,ITemplateHandler templateHandler, ITocFileManager tocFileManager)
+    public IgFileHandler(
+        IUserInteractionHandler userInteractionHandler,
+        INamingManipulationHandler namingManipulationHandler,
+        ITemplateHandler templateHandler,
+        ITocFileManager tocFileManager)
     {
-        _userInteractionHandler = userInteractionHandler;
-        _namingManipulationHandler = namingManipulationHandler;
-        _templateHandler = templateHandler;
-        _tocFileManager = tocFileManager;
+        _userInteractionHandler = userInteractionHandler ?? throw new ArgumentNullException(nameof(userInteractionHandler));
+        _namingManipulationHandler = namingManipulationHandler ?? throw new ArgumentNullException(nameof(namingManipulationHandler));
+        _templateHandler = templateHandler ?? throw new ArgumentNullException(nameof(templateHandler));
+        _tocFileManager = tocFileManager ?? throw new ArgumentNullException(nameof(tocFileManager));
     }
 
     public void StartConsoleWorkflow()
     {
-        igFolderPath = _userInteractionHandler.GetString("Select IgFolder Path:");
-        _directory = new DirectoryInfo(igFolderPath);
+        IgFolderPath = _userInteractionHandler.GetString("Select IgFolder Path:");
+        _directory = new DirectoryInfo(IgFolderPath);
+        
+        if (!_directory.Exists)
+        {
+            throw new DirectoryNotFoundException($"Directory not found: {IgFolderPath}");
+        }
     }
 
     public void SaveExtractedDataObjectFiles(IDictionary<string, IDictionary<string, string>> extractedDataObjects)
     {
-        string dataObjectFolderName = "Datenobjekte";
-        string? fullPath = _directory.FindFolderPath(dataObjectFolderName);
+        string fullPath = GetOrCreateDirectory(FolderNames.DataObjects);
 
-        if (fullPath == null)
-        {
-            fullPath = _directory.CreateSubdirectory($"{dataObjectFolderName}").FullName;
-            _userInteractionHandler.Send($"There is no subfolder {dataObjectFolderName} at {_directory.FullName}. Folder created!");
-        }
-        
-        foreach (KeyValuePair<string, IDictionary<string, string>> dataObject in extractedDataObjects)
+        foreach (var dataObject in extractedDataObjects)
         {
             RemoveEmptyExamples(dataObject);
 
-            string match = _namingManipulationHandler.FilterPartFromFilename(LastPartOfCanonical().Match(dataObject.Key).Value);
-            string folder = $"{fullPath}/Datenobjekt_{match}";
-            SimpleAllFilesFromDirectory(dataObject.Value, folder);
+            string match = _namingManipulationHandler.FilterPartFromFilename(
+                LastPartOfCanonical().Match(dataObject.Key).Value);
+            string folder = Path.Combine(fullPath, $"Datenobjekt_{match}");
+            
+            SaveFiles(dataObject.Value, folder);
         }
     }
 
@@ -54,111 +66,114 @@ public partial class IgFileHandler :IIgFileHandler
     {
         try
         {
-            KeyValuePair<string, string> emptyExample = dataObject.Value.First(e => e.Key.Contains("Beispiele")
-                && e.Value.Split('\n').Length < 9);
-            dataObject.Value.Remove(emptyExample);
+            var emptyExample = dataObject.Value.FirstOrDefault(e => 
+                e.Key.Contains("Beispiele") && e.Value.Split('\n').Length < 9);
+                
+            if (!string.IsNullOrEmpty(emptyExample.Key))
+            {
+                dataObject.Value.Remove(emptyExample.Key);
+            }
         }
         catch (InvalidOperationException)
         {
-            return;
+            // Ignore if no empty examples found
         }
     }
 
     public void SaveExtractedCodeSystemFiles(IDictionary<string, string> extractedCodeSystems)
     {
-        const string terminologyFolderName = "Terminologien";
-        string? fullPath = GetDataObjectPath(terminologyFolderName);
-
-        SimpleAllFilesFromDirectory(extractedCodeSystems, fullPath);
+        string dataObjectPath = GetOrCreateDirectory(FolderNames.DataObjects);
+        string fullPath = Path.Combine(dataObjectPath, FolderNames.Terminology);
+        EnsureDirectoryExists(fullPath);
+        SaveFiles(extractedCodeSystems, fullPath);
     }
 
     public void SaveExtractedExtensionFiles(IDictionary<string, string> extractedExtensions)
     {
-        const string extensionFolderName = "Extensions";
-        string? fullPath = GetDataObjectPath(extensionFolderName);
-
-        SimpleAllFilesFromDirectory(extractedExtensions, fullPath);
+        string dataObjectPath = GetOrCreateDirectory(FolderNames.DataObjects);
+        string fullPath = Path.Combine(dataObjectPath, FolderNames.Extensions);
+        EnsureDirectoryExists(fullPath);
+        SaveFiles(extractedExtensions, fullPath);
     }
     
     public void SaveExtractedCapStmtFiles(IDictionary<string, string> extractedCapStmt)
     {
-        const string capStmtFolderName = "CapabilityStatements";
-        string? fullPath = GetDataObjectPath(capStmtFolderName);
-
-        SimpleAllFilesFromDirectory(extractedCapStmt, fullPath);
+        string dataObjectPath = GetOrCreateDirectory(FolderNames.DataObjects);
+        string fullPath = Path.Combine(dataObjectPath, FolderNames.CapabilityStatements);
+        EnsureDirectoryExists(fullPath);
+        SaveFiles(extractedCapStmt, fullPath);
     }
 
     public void SaveCopyPasteFiles()
     {
-        string dataObjectFolderName = "Datenobjekte";
-        string? fullPath = _directory.FindFolderPath(dataObjectFolderName)?.Replace(dataObjectFolderName, "");
-        SimpleAllFilesFromDirectory(_templateHandler.GetTemplate(TemplateType.CopyPasteFile).ToDictionary(e=>e.FileName, e=>e.Content), fullPath);
+        string? basePath = _directory.FindFolderPath(FolderNames.DataObjects)?.Replace(FolderNames.DataObjects, "");
+        if (basePath != null)
+        {
+            var templates = _templateHandler.GetTemplate(TemplateType.CopyPasteFile)
+                .ToDictionary(e => e.FileName, e => e.Content);
+            SaveFiles(templates, basePath);
+        }
     }
 
     public void SaveTocFiles()
     {
-        SaveDataObjectTocFile();
-        SaveCodesystemTocFile();
-        SaveExtensionTocFile();
-        SaveCapabilityStatementTocFile();
+        SaveTocFile(FolderNames.DataObjects, _tocFileManager.GetDataObjectTocFile());
+        SaveTocFile(FolderNames.Terminology, _tocFileManager.GetCodeSystemTocFile());
+        SaveTocFile(FolderNames.Extensions, _tocFileManager.GetExtensionTocFile());
+        SaveTocFile(FolderNames.CapabilityStatements, _tocFileManager.GetCapabilitySatementTocFile());
     }
 
-    private void SaveDataObjectTocFile()
+    private void SaveTocFile(string folderName, string content)
     {
-        string? tocFileFolderPath = _directory.FindFolderPath("Datenobjekte");
-        SimpleAllFilesFromDirectory(new Dictionary<string, string>
+        string? folderPath = _directory.FindFolderPath(folderName);
+        if (folderPath != null)
         {
-            {"toc.yaml", _tocFileManager.GetDataObjectTocFile().RemoveEmptyLines()}
-        }, tocFileFolderPath);
-    }
-    
-    private void SaveCodesystemTocFile()
-    {
-        string? tocFileFolderPath = _directory.FindFolderPath("Terminologien");
-        SimpleAllFilesFromDirectory(new Dictionary<string, string>
-        {
-            {"toc.yaml", _tocFileManager.GetCodeSystemTocFile().RemoveEmptyLines()}
-        }, tocFileFolderPath);
-    }
-    
-    private void SaveExtensionTocFile()
-    {
-        string? tocFileFolderPath = _directory.FindFolderPath("Extensions");
-        SimpleAllFilesFromDirectory(new Dictionary<string, string>
-        {
-            {"toc.yaml", _tocFileManager.GetExtensionTocFile().RemoveEmptyLines()}
-        }, tocFileFolderPath);
-    }
-    
-    private void SaveCapabilityStatementTocFile()
-    {
-        string? tocFileFolderPath = _directory.FindFolderPath("CapabilityStatements");
-        SimpleAllFilesFromDirectory(new Dictionary<string, string>
-        {
-            {"toc.yaml", _tocFileManager.GetCapabilitySatementTocFile().RemoveEmptyLines()}
-        }, tocFileFolderPath);
+            SaveFiles(new Dictionary<string, string>
+            {
+                {"toc.yaml", content.RemoveEmptyLines()}
+            }, folderPath);
+        }
     }
 
-    private string? GetDataObjectPath(string subfolder)
+    private string GetOrCreateDirectory(string folderName)
     {
-        string dataObjectFolderName = "Datenobjekte";
-        string? fullPath = _directory.FindFolderPath(dataObjectFolderName) + "/" + subfolder;
-        return fullPath;
-    }
-
-    private void SimpleAllFilesFromDirectory(IDictionary<string, string> files, string? fullPath)
-    {
-        if (!Directory.Exists($"{fullPath}"))
+        string? existingPath = _directory.FindFolderPath(folderName);
+        if (existingPath != null)
         {
-            Directory.CreateDirectory($"{fullPath}");
+            return existingPath;
         }
 
-        foreach (KeyValuePair<string, string> f in files)
+        string newPath = Path.Combine(_directory.FullName, folderName);
+        Directory.CreateDirectory(newPath);
+        _userInteractionHandler.Send($"Created directory: {newPath}");
+        return newPath;
+    }
+
+    private void EnsureDirectoryExists(string path)
+    {
+        if (!Directory.Exists(path))
         {
-            string file = $"{fullPath}/{f.Key}";
-            File.Create(file).Dispose();
-            File.WriteAllText(file, f.Value);
-            _userInteractionHandler.Send($"{file} has been created");
+            Directory.CreateDirectory(path);
+            _userInteractionHandler.Send($"Created directory: {path}");
+        }
+    }
+
+    private void SaveFiles(IDictionary<string, string> files, string fullPath)
+    {
+        EnsureDirectoryExists(fullPath);
+
+        foreach (var (fileName, content) in files)
+        {
+            try
+            {
+                string filePath = Path.Combine(fullPath, fileName);
+                File.WriteAllText(filePath, content);
+                _userInteractionHandler.Send($"Created file: {filePath}");
+            }
+            catch (Exception ex)
+            {
+                _userInteractionHandler.Send($"Error creating file {fileName}: {ex.Message}");
+            }
         }
     }
 

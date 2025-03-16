@@ -1,135 +1,48 @@
 ﻿using System.Text.RegularExpressions;
 using IgGenerator.DataObjectHandling.Interfaces;
+using IgGenerator.DataObjectHandling.Services;
 using IgGenerator.Helpers;
 using IgGenerator.IgHandling;
 
 namespace IgGenerator.DataObjectHandling;
 
-public partial class TemplateHandler : ITemplateHandler
+/// <summary>
+/// Main handler class for managing and processing templates in the Implementation Guide generation process.
+/// Acts as a facade for template loading and processing services.
+/// </summary>
+public class TemplateHandler : ITemplateHandler
 {
-    private const string DataObjectFolderName = "Datenobjekte";
-    private const string DataObjectFolderPath = "./IgTemplate/Home/Datenobjekte";
-    private const string SingleDataObjectTemplateFolderName = $"{DataObjectFolderPath}/Datenobjekte_Template";
-    private const string CodeSystemTemplateFolder = $"{DataObjectFolderPath}/Terminologien/";
-    private const string ExtensionTemplateFolder = $"{DataObjectFolderPath}/Extensions/";
-    private const string CapabilityStatementFolder = $"{DataObjectFolderPath}/CapabilityStatements/";
-
-    private List<Template> _templates = [];
+    private readonly TemplateLoadingService _loadingService;
+    private readonly TemplateProcessingService _processingService;
     
-    private readonly INamingManipulationHandler _namingManipulationHandler;
-    
+    /// <summary>
+    /// Initializes a new instance of the TemplateHandler class.
+    /// </summary>
+    /// <param name="namingManipulationHandler">Handler for filename manipulation</param>
+    /// <exception cref="ArgumentNullException">Thrown when namingManipulationHandler is null</exception>
     public TemplateHandler(INamingManipulationHandler namingManipulationHandler)
     {
-        _namingManipulationHandler = namingManipulationHandler;
+        if (namingManipulationHandler == null)
+            throw new ArgumentNullException(nameof(namingManipulationHandler));
 
-        LoadSingleDataObjectTemplates();
-        LoadCodeSystemTemplate();
-        LoadExtensionTemplate();
-        LoadCapabilityStatementTemplate();
-        LoadCopyPasteFiles();
-        LoadTocTemplates();
+        _loadingService = new TemplateLoadingService();
+        var templates = _loadingService.LoadAllTemplates().ToList();
+        _processingService = new TemplateProcessingService(namingManipulationHandler, templates);
     }
 
-    private void LoadTocTemplates()
-    {
-        DirectoryInfo dir = new(DataObjectFolderPath);
-        FileInfo doTocTemplate = dir.EnumerateFiles("*.yaml", SearchOption.TopDirectoryOnly).First();
-        _templates.Add(new Template(TemplateType.TocFile | TemplateType.DataObject, "toc.yaml", File.ReadAllText(doTocTemplate.FullName)));
+    /// <inheritdoc />
+    public KeyValuePair<string, string> ApplyVariables(IVariable variables) => 
+        _processingService.ApplyVariables(variables);
 
-        DirectoryInfo dirCs = new(CodeSystemTemplateFolder);
-        FileInfo csTocTemplate = dirCs.EnumerateFiles("*.yaml", SearchOption.TopDirectoryOnly).First();
-        _templates.Add(new Template(TemplateType.TocFile | TemplateType.CodeSystem, "toc.yaml", File.ReadAllText(csTocTemplate.FullName)));
-        
-        DirectoryInfo dirEx = new(ExtensionTemplateFolder);
-        FileInfo exTocTemplate = dirEx.EnumerateFiles("*.yaml", SearchOption.TopDirectoryOnly).First();
-        _templates.Add(new Template(TemplateType.TocFile | TemplateType.Extension, "toc.yaml", File.ReadAllText(exTocTemplate.FullName)));
-        
-        DirectoryInfo dirCapStmt = new(CapabilityStatementFolder);
-        FileInfo capStmtTocTemplate = dirCapStmt.EnumerateFiles("*.yaml", SearchOption.TopDirectoryOnly).First();
-        _templates.Add(new Template(TemplateType.TocFile | TemplateType.CapabilityStatement, "toc.yaml", File.ReadAllText(capStmtTocTemplate.FullName)));
-    }
+    /// <inheritdoc />
+    public IDictionary<string, string> ApplyDataObjectVariables(IVariable variables) => 
+        _processingService.ApplyDataObjectVariables(variables);
 
-    private void LoadCopyPasteFiles()
-    {
-        DirectoryInfo dir = new(DataObjectFolderPath);
-        foreach (FileInfo fileInfo in dir.EnumerateFiles("*.md", SearchOption.AllDirectories))
-        {
-            if (!fileInfo.Name.Contains("$$"))
-            {
-                _templates.Add(new Template(TemplateType.CopyPasteFile, fileInfo.FullName.GetPathFromFolder(DataObjectFolderName)!,File.ReadAllText(fileInfo.FullName)));
-            }
-        }
-    }
+    /// <inheritdoc />
+    public string ApplyTocList(string content, IEnumerable<IVariable> variables) => 
+        _processingService.ApplyTocList(content, variables);
 
-    private void LoadSingleDataObjectTemplates()
-    {
-        DirectoryInfo dir = new(SingleDataObjectTemplateFolderName);
-        foreach (FileInfo enumerateFile in dir.EnumerateFiles())
-        {
-            _templates.Add(new Template(TemplateType.DataObject, enumerateFile.Name,File.ReadAllText(enumerateFile.FullName)));
-        }
-    }
-
-    private void LoadCodeSystemTemplate()
-    {
-        LoadAndAddSingleTemplateFile(TemplateType.CodeSystem, CodeSystemTemplateFolder);
-    }
-    
-    private void LoadExtensionTemplate()
-    {
-        LoadAndAddSingleTemplateFile(TemplateType.Extension, ExtensionTemplateFolder);
-    }
-
-    private void LoadCapabilityStatementTemplate()
-    {
-        LoadAndAddSingleTemplateFile(TemplateType.CapabilityStatement, CapabilityStatementFolder);
-    }
-    
-    private void LoadAndAddSingleTemplateFile(TemplateType templateTypes, string folderName)
-    {
-        DirectoryInfo dir = new(folderName);
-        FileInfo? file = dir.EnumerateFiles().FirstOrDefault(e => e.Name.Contains("$$"));
-        _templates.Add(new Template(templateTypes, file!.Name,File.ReadAllText(file.FullName)));
-    }
-
-    public KeyValuePair<string, string> ApplyVariables(IVariable variables) =>
-        variables switch
-        {
-            CodeSystemVariables => ApplyVariablesToKeyValuePair(variables, _templates.First(e=>e.TemplateType == TemplateType.CodeSystem)),
-            ExtensionVariables => ApplyVariablesToKeyValuePair(variables, _templates.First(e=>e.TemplateType == TemplateType.Extension)),
-            CapabilityStatementVariables => ApplyVariablesToKeyValuePair(variables, _templates.First(e=>e.TemplateType == TemplateType.CapabilityStatement)),
-            _ => throw new ArgumentOutOfRangeException(nameof(variables), variables, null)
-        };
-
-    private static KeyValuePair<string, string> ApplyVariablesToKeyValuePair(IVariable variables, Template template) =>
-        new(
-            variables.ApplyVariables(template.FileName),
-            variables.ApplyVariables(template.Content));
-
-    public IDictionary<string, string> ApplyDataObjectVariables(IVariable variables) =>
-        _templates
-            .Where(e=>e.TemplateType == TemplateType.DataObject)
-            .ToDictionary(
-                file => variables.ApplyVariables(file.FileName), 
-                file => variables.ApplyVariables(file.Content));
-
-    public string ApplyTocList(string content, IEnumerable<IVariable> variables)
-    {
-        Match match = TocObjectRegex().Match(content);
-        IEnumerable<string> allTocObjects = variables.Select(e=>e.ApplyVariables(match.Value));
-
-        string result = allTocObjects.Aggregate(content, (current, exampleContent) => current + exampleContent);
-        
-        return result
-            .Replace(match.Value, "")
-            .ReplaceVars();
-    }
-
-    public IEnumerable<Template> GetTemplate(TemplateType templateTypes)
-    {
-        return _templates.Where(e => e.TemplateType == templateTypes);
-    }
-    
-    [GeneratedRegex(@"\$\$startTocObject\s*(.*?)\s*\$\$endTocObject", RegexOptions.Singleline)]
-    private static partial Regex TocObjectRegex();
+    /// <inheritdoc />
+    public IEnumerable<Template> GetTemplate(TemplateType templateTypes) => 
+        _processingService.GetTemplate(templateTypes);
 }

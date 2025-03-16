@@ -8,118 +8,201 @@ namespace IgGenerator.ResourceHandling;
 
 public partial class ResourceHandler : IResourceHandler
 {
+    private const string STRUCTURE_DEFINITION_PREFIX = "StructureDefinition-";
+    private const string CODE_SYSTEM_PREFIX = "CodeSystem-";
+    
     private readonly IResourceFileHandler _fileHandler;
     private readonly IUserInteractionHandler _userInteractionHandler;
-    private readonly FhirJsonParser _parser = new();
+    private readonly FhirJsonParser _parser;
     private IEnumerable<Resource>? _resourcesCache;
 
-    public ResourceHandler(IResourceFileHandler fileHandler, IUserInteractionHandler userInteractionHandler)
+    public ResourceHandler(
+        IResourceFileHandler fileHandler, 
+        IUserInteractionHandler userInteractionHandler)
     {
-        _fileHandler = fileHandler;
-        _userInteractionHandler = userInteractionHandler;
+        _fileHandler = fileHandler ?? throw new ArgumentNullException(nameof(fileHandler));
+        _userInteractionHandler = userInteractionHandler ?? throw new ArgumentNullException(nameof(userInteractionHandler));
+        _parser = new FhirJsonParser();
     }
 
-    public IEnumerable<string>? ExtractSupportedProfiles()
+    public IEnumerable<string> ExtractSupportedProfiles()
     {
-        if (_fileHandler.CapabilityStatement is not null)
+        if (_fileHandler.CapabilityStatement != null)
         {
-           return _fileHandler.CapabilityStatement?.Rest
-                .Where(e => e.Mode == CapabilityStatement.RestfulCapabilityMode.Server)
-                .SelectMany(e => e.Resource.SelectMany(r => r.SupportedProfile));
+            return ExtractProfilesFromCapabilityStatement();
         }
-        else
-        {
-            FileInfo[]? sds = _fileHandler.AllJsonFiles?.Where(e => e.Name.StartsWith($"StructureDefinition-")).ToArray();
-            return sds?
-                .Select(e=> _parser.Parse<StructureDefinition>(File.ReadAllText(e.FullName)))
-                .Where(e=>e.Type != "Extension")
-                .Select(e=>e.Url)?? Array.Empty<string>();
-        }
+        
+        return ExtractProfilesFromStructureDefinitions();
+    }
+
+    private IEnumerable<string> ExtractProfilesFromCapabilityStatement()
+    {
+        return _fileHandler.CapabilityStatement?.Rest
+            .Where(e => e.Mode == CapabilityStatement.RestfulCapabilityMode.Server)
+            .SelectMany(e => e.Resource.SelectMany(r => r.SupportedProfile))
+            ?? Enumerable.Empty<string>();
+    }
+
+    private IEnumerable<string> ExtractProfilesFromStructureDefinitions()
+    {
+        var structureDefinitions = GetStructureDefinitionFiles()
+            ?.Select(file => ParseResource<StructureDefinition>(file))
+            .Where(sd => sd?.Type != "Extension");
+
+        return structureDefinitions?
+            .Where(sd => sd != null)
+            .Select(sd => sd!.Url)
+            ?? Enumerable.Empty<string>();
     }
 
     public IEnumerable<CodeSystem> GetCodeSystems()
     {
-        IEnumerable<FileInfo>? sdFile = _fileHandler.AllJsonFiles?.Where(e => e.Name.StartsWith($"CodeSystem-")).ToArray();
-        return sdFile?.Select(e=>_parser.Parse<CodeSystem>(File.ReadAllText(e.FullName))) ?? Array.Empty<CodeSystem>();
+        var codeSystemFiles = _fileHandler.AllJsonFiles?
+            .Where(e => e.Name.StartsWith(CODE_SYSTEM_PREFIX))
+            .ToArray();
+
+        return codeSystemFiles?
+            .Select(file => ParseResource<CodeSystem>(file))
+            .Where(cs => cs != null)
+            .Select(cs => cs!)
+            ?? Enumerable.Empty<CodeSystem>();
     }
 
     public CapabilityStatement? GetCapabilityStatement() => _fileHandler.CapabilityStatement;
 
     public IEnumerable<(string name, string canonical)> GetUsedExtensions()
     {
-        IEnumerable<FileInfo>? sdFile = _fileHandler.AllJsonFiles?.Where(e => e.Name.StartsWith($"StructureDefinition-")).ToArray();
+        var structureDefinitions = GetStructureDefinitionFiles();
+        if (structureDefinitions == null) return Enumerable.Empty<(string, string)>();
 
-        List<(string name, string canonical)> usedExtensions = new();
+        var usedExtensions = new HashSet<(string name, string canonical)>();
         
-        foreach (FileInfo fileInfo in sdFile!)
+        foreach (var file in structureDefinitions)
         {
-            string sdContent = File.ReadAllText(fileInfo.FullName);
-            StructureDefinition sd = _parser.Parse<StructureDefinition>(sdContent);
+            var sd = ParseResource<StructureDefinition>(file);
+            if (sd?.Differential?.Element == null) continue;
 
-            foreach (ElementDefinition elementDefinition in sd.Differential.Element.Where(e=>e.Type.Any(t=>t.Code == "Extension")))
+            var extensionElements = sd.Differential.Element
+                .Where(e => e.Type.Any(t => t.Code == "Extension"));
+
+            foreach (var element in extensionElements)
             {
-                (string name, string canonical) tuple = ExtractExtensionTuple(sd.Type, elementDefinition);
-                if (usedExtensions.All(e => e.canonical != tuple.canonical))
+                var extensionInfo = ExtractExtensionInfo(sd.Type, element);
+                if (!string.IsNullOrEmpty(extensionInfo.canonical))
                 {
-                    usedExtensions.Add(tuple);
+                    usedExtensions.Add(extensionInfo);
                 }
             }
         }
 
-        return usedExtensions.AsEnumerable();
+        return usedExtensions;
     }
 
-    private static (string name, string canonical) ExtractExtensionTuple(string resourceName, ElementDefinition elementDefinition)
+    private static (string name, string canonical) ExtractExtensionInfo(
+        string resourceName, 
+        ElementDefinition elementDefinition)
     {
-        string name = $"{resourceName}-{elementDefinition.SliceName}"; //TODO Name bei Simplifier EP abfragen
-        string? canonical = elementDefinition.Type.First(e => e.Code == "Extension").Profile.FirstOrDefault();
-        return (name, canonical)!;
+        var name = $"{resourceName}-{elementDefinition.SliceName}"; //TODO Name bei Simplifier EP abfragen
+        var canonical = elementDefinition.Type
+            .First(e => e.Code == "Extension")
+            .Profile
+            .FirstOrDefault();
+
+        return (name, canonical ?? string.Empty);
     }
 
     public IEnumerable<Resource> GetExamplesForProfile(string supportedProfile)
     {
-        if (_resourcesCache == null)
-        {
-            _resourcesCache =
-                _fileHandler.AllJsonFiles?.Select(e => _parser.Parse<Resource>(File.ReadAllText(e.FullName))).ToArray() ?? [];
-            _userInteractionHandler.Send($"Found {_resourcesCache.Count(e => e.Meta != null && e.Meta.Profile.Any())} examples");
-        }
+        EnsureResourceCache();
+        
+        return _resourcesCache?
+            .Where(r => HasMatchingProfile(r, supportedProfile))
+            ?? Enumerable.Empty<Resource>();
+    }
 
-        return _resourcesCache.Where(r=>r.Meta != null && r.Meta.Profile.Contains(supportedProfile));
+    private void EnsureResourceCache()
+    {
+        if (_resourcesCache != null) return;
+        
+        _resourcesCache = _fileHandler.AllJsonFiles?
+            .Select(file => ParseResource<Resource>(file))
+            .Where(r => r != null)
+            .Select(r => r!)
+            .ToArray() ?? Array.Empty<Resource>();
+
+        _userInteractionHandler.Send(
+            $"Found {_resourcesCache.Count(e => e.Meta?.Profile.Any() == true)} examples");
+    }
+
+    private static bool HasMatchingProfile(Resource resource, string profile)
+    {
+        return resource.Meta?.Profile.Contains(profile) == true;
     }
     
     public StructureDefinition? GetStructureDefinition(string supportedProfile)
     {
-        StructureDefinition? structureDefinition = _fileHandler.GetCachedResolver().ResolveByCanonicalUriAsync(supportedProfile).Result as StructureDefinition;
+        var structureDefinition = TryResolveStructureDefinition(supportedProfile);
+        if (structureDefinition != null) return structureDefinition;
 
-        if (structureDefinition == null)
+        var matchingFiles = FindMatchingStructureDefinitionFiles(supportedProfile);
+        if (!matchingFiles.Any())
         {
-
-            const string pattern = @"[^/]+$";
-            string match = LastPartOfCanonical().Match(supportedProfile).Value;
-            IEnumerable<FileInfo>? sdFile = _fileHandler.AllJsonFiles
-                ?.Where(e => e.Name.Equals($"StructureDefinition-{match}.json")).ToArray();
-            int number = 0;
-            if (sdFile.Count() > 1)
-            {
-                for (int iii = 0; iii < sdFile.Count(); iii++)
-                {
-                    Console.WriteLine($"{iii}: {sdFile.ElementAt(iii).Name}");
-                }
-
-                number = _userInteractionHandler.GetNumber("Which one? (Type number, default 0):", 0);
-            }
-
-            if (!sdFile.Any())
-            {
-                _userInteractionHandler.Send($"No structure definition found for canonical {supportedProfile}.");
-                return null;
-            }
-            structureDefinition =
-                _parser.Parse<StructureDefinition>(File.ReadAllText(sdFile.ElementAt(number).FullName));
+            _userInteractionHandler.Send($"No structure definition found for canonical {supportedProfile}.");
+            return null;
         }
 
-        return structureDefinition;
+        var selectedFile = SelectStructureDefinitionFile(matchingFiles);
+        return ParseResource<StructureDefinition>(selectedFile);
+    }
+
+    private StructureDefinition? TryResolveStructureDefinition(string supportedProfile)
+    {
+        return _fileHandler.GetCachedResolver()
+            .ResolveByCanonicalUriAsync(supportedProfile)
+            .Result as StructureDefinition;
+    }
+
+    private IEnumerable<FileInfo> FindMatchingStructureDefinitionFiles(string supportedProfile)
+    {
+        var match = LastPartOfCanonical().Match(supportedProfile).Value;
+        return _fileHandler.AllJsonFiles?
+            .Where(e => e.Name.Equals($"{STRUCTURE_DEFINITION_PREFIX}{match}.json"))
+            ?? Enumerable.Empty<FileInfo>();
+    }
+
+    private FileInfo SelectStructureDefinitionFile(IEnumerable<FileInfo> files)
+    {
+        if (files.Count() <= 1) return files.First();
+
+        for (int i = 0; i < files.Count(); i++)
+        {
+            _userInteractionHandler.Send($"{i}: {files.ElementAt(i).Name}");
+        }
+
+        var selectedIndex = _userInteractionHandler.GetNumber(
+            "Which one? (Type number, default 0):", 0);
+        
+        return files.ElementAt(selectedIndex);
+    }
+
+    private FileInfo[]? GetStructureDefinitionFiles()
+    {
+        return _fileHandler.AllJsonFiles?
+            .Where(e => e.Name.StartsWith(STRUCTURE_DEFINITION_PREFIX))
+            .ToArray();
+    }
+
+    private T? ParseResource<T>(FileInfo file) where T : Resource
+    {
+        try
+        {
+            return _parser.Parse<T>(File.ReadAllText(file.FullName));
+        }
+        catch (Exception ex)
+        {
+            _userInteractionHandler.Send($"Error parsing {file.Name}: {ex.Message}");
+            return null;
+        }
     }
 
     [GeneratedRegex("[^/]+$")]
